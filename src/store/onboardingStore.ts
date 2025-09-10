@@ -9,7 +9,7 @@ interface OnboardingState {
   department: string;
 
   interests: string[];
-  interestDetail: string;
+  interestDetail: string | null;
   hashtags: string[];
 
   // 개별 함수 업데이트
@@ -20,7 +20,7 @@ interface OnboardingState {
   setDepartment: (department: string) => void;
 
   setInterests: (interests: string[]) => void;
-  setInterestDetail: (detail: string) => void;
+  setInterestDetail: (detail: string | null) => void;
   setHashtags: (hashtags: string[]) => void;
 }
 
@@ -44,7 +44,8 @@ export const useOnboardingStore = create<OnboardingState>()(
       setDepartment: (department: string) => set({ department }),
 
       setInterests: (interests: string[]) => set({ interests }),
-      setInterestDetail: (detail: string) => set({ interestDetail: detail }),
+      setInterestDetail: (detail: string | null) =>
+        set({ interestDetail: detail }),
       setHashtags: (hashtags: string[]) => set({ hashtags }),
     }),
     {

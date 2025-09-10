@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Chip } from "./Chip";
 import CloseIcon from "@/assets/icons/close.svg?url";
 import { ChipStack } from "./ChipStack";
+import { useOnboardingStore } from "../../store/onboardingStore";
 
 const recommendHashTags = [
   { label: "검정치마", value: "검정치마" },
@@ -13,7 +14,7 @@ const recommendHashTags = [
 ];
 
 export const HashtagInput = () => {
-  const [hashtags, setHashtags] = useState<string[]>([]);
+  const { hashtags, setHashtags } = useOnboardingStore();
   const [inputValue, setInputValue] = useState("");
   const ContainerRef = useRef<HTMLDivElement>(null);
 

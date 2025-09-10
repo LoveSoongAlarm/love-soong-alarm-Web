@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Header } from "../../common/Header";
 import { Chip } from "../../components/profileOnboarding/Chip";
 import { ChipStack } from "../../components/profileOnboarding/ChipStack";
@@ -8,6 +7,8 @@ import { SectionHeader } from "../../components/profileOnboarding/SectionHeader"
 import { Divider } from "../../common/Divider";
 import { Button } from "../../common/Button";
 import { HashtagInput } from "../../components/profileOnboarding/HashtagInput";
+import { useOnboardingStore } from "../../store/onboardingStore";
+import { Link } from "react-router-dom";
 
 const genres = [
   { label: "밴드", value: "밴드" },
@@ -17,15 +18,17 @@ const genres = [
 ];
 
 export const Onboarding_Preference = () => {
-  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const { interestDetail, setInterestDetail, hashtags } = useOnboardingStore();
 
   const handleGenreClick = (genre: string) => {
-    if (selectedGenre === genre) {
-      setSelectedGenre(null);
+    if (interestDetail === genre) {
+      setInterestDetail(null);
     } else {
-      setSelectedGenre(genre);
+      setInterestDetail(genre);
     }
   };
+
+  const isFilled = !!(interestDetail && hashtags.length > 0);
 
   return (
     <div className="flex flex-col h-full justify-between">
@@ -44,7 +47,7 @@ export const Onboarding_Preference = () => {
             {genres.map((genre) => (
               <Chip
                 variant="detail"
-                selected={selectedGenre === genre.value}
+                selected={interestDetail === genre.value}
                 label={genre.label}
                 onClick={() => handleGenreClick(genre.value)}
               />
@@ -63,12 +66,17 @@ export const Onboarding_Preference = () => {
       </div>
 
       <div className="mb-8 px-4 py-2.5 flex flex-col gap-2">
-        <Button>다음으로</Button>
-        <div className="px-1 pt-0.5 text-assistive text-xs font-normal text-center">
-          "시작하기" 버튼을 통해 서비스를 시작하였을 경우,
-          <span className="text-additive font-bold underline">약관의 내용</span>
-          을 모두 읽고 이를 충분히 이해하였으며, 그 적용에 동의한 것으로 봅니다.
-        </div>
+        <Button variant={isFilled ? "primary" : "disabled"}>다음으로</Button>
+        {isFilled && (
+          <div className="px-1 pt-0.5 text-assistive text-xs font-normal text-center">
+            "시작하기" 버튼을 통해 서비스를 시작하였을 경우,
+            <Link to={"/term"} className="text-additive font-bold underline">
+              약관의 내용
+            </Link>
+            을 모두 읽고 이를 충분히 이해하였으며, 그 적용에 동의한 것으로
+            봅니다.
+          </div>
+        )}
       </div>
     </div>
   );
