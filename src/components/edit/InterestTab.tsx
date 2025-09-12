@@ -55,28 +55,29 @@ export const InterestTab = () => {
           </div>
         </div>
 
-        <Divider />
-
-        <SectionHeader title="자세한 취향 분류" />
-        <ChipStack>
-          {genres.map((genre) => (
-            <Chip
-              variant="detail"
-              selected={selectedGenre === genre.value}
-              label={genre.label}
-              onClick={() => handleGenreClick(genre.value)}
+        {selectedInterests && (
+          <>
+            {" "}
+            <Divider />
+            <SectionHeader title="자세한 취향 분류" />
+            <ChipStack>
+              {genres.map((genre) => (
+                <Chip
+                  variant="detail"
+                  selected={selectedGenre === genre.value}
+                  label={genre.label}
+                  onClick={() => handleGenreClick(genre.value)}
+                />
+              ))}
+            </ChipStack>
+            <Divider />
+            <SectionHeader
+              title="취향 해시태그"
+              subTitle="10자 이내로 작성해주세요"
             />
-          ))}
-        </ChipStack>
-
-        <Divider />
-
-        <SectionHeader
-          title="취향 해시태그"
-          subTitle="10자 이내로 작성해주세요"
-        />
-
-        <HashtagInput />
+            <HashtagInput />
+          </>
+        )}
       </div>
 
       <div className="absolute bottom-0 max-w-[444px] w-full px-4 flex flex-col bg-white pb-8 shadow-dim-weak backdrop-blur-40">
