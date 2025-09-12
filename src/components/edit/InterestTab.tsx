@@ -5,25 +5,8 @@ import { Divider } from "../../common/Divider";
 import { ChipStack } from "../profileOnboarding/ChipStack";
 import { HashtagInput } from "../profileOnboarding/HashtagInput";
 import { Button } from "../../common/Button";
-
-const INTEREST_OPTIONS = [
-  { label: "🎧 음악", value: "음악" },
-  { label: "🎬 미디어", value: "미디어" },
-  { label: "🎮 게임", value: "게임" },
-  { label: "🏋🏻‍♂️ 운동", value: "운동" },
-  { label: "⚽️ 스포츠", value: "스포츠" },
-  { label: "📚 독서", value: "독서" },
-  { label: "👔 패션", value: "패션" },
-  { label: "🍔 식도락", value: "식도락" },
-  { label: "✈️ 여행", value: "여행" },
-];
-
-const genres = [
-  { label: "밴드", value: "밴드" },
-  { label: "힙합", value: "힙합" },
-  { label: "케이팝", value: "케이팝" },
-  { label: "클래식", value: "클래식" },
-];
+import { INTEREST_OPTIONS } from "../../constants/interests";
+import { GENRE_OPTIONS } from "../../constants/genres";
 
 export const InterestTab = () => {
   const [selectedInterests, setSelectedInterests] = useState<string | null>(
@@ -31,12 +14,12 @@ export const InterestTab = () => {
   );
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
 
+  const genres = selectedInterests
+    ? GENRE_OPTIONS[selectedInterests] || []
+    : [];
+
   const handleSelect = (value: string) => {
-    if (selectedInterests === value) {
-      setSelectedInterests(null);
-    } else {
-      setSelectedInterests(value);
-    }
+    setSelectedInterests(value);
   };
 
   const handleGenreClick = (genre: string) => {
