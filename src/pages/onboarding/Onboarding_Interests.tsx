@@ -66,7 +66,7 @@ export const Onboarding_Interests = () => {
       </div>
 
       <div className="w-full mb-8 px-4 py-2.5 absolute bottom-0 bg-white">
-        <Link to="/onboarding/preference">
+        <Link to="/onboarding/preference/0">
           <Button variant={isFilled ? "primary" : "disabled"}>다음으로</Button>
         </Link>
       </div>

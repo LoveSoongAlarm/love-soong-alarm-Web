@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface OnboardingState {
   emoji: string;
@@ -34,7 +34,7 @@ export const useOnboardingStore = create<OnboardingState>()(
       department: "",
 
       interests: [],
-      interestDetail: "",
+      interestDetail: null,
       hashtags: [],
 
       setEmoji: (emoji: string) => set({ emoji }),
@@ -50,6 +50,7 @@ export const useOnboardingStore = create<OnboardingState>()(
     }),
     {
       name: "onboarding-storage",
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );

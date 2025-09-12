@@ -25,7 +25,7 @@ const genres = [
   { label: "클래식", value: "클래식" },
 ];
 
-export const Interest1Tab = () => {
+export const InterestTab = () => {
   const [selectedInterests, setSelectedInterests] = useState<string | null>(
     null
   );
