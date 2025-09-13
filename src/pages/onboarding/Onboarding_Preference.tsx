@@ -4,7 +4,6 @@ import { ChipStack } from "../../components/profileOnboarding/ChipStack";
 import { Description } from "../../components/profileOnboarding/Description";
 import { ProgressBar } from "../../components/profileOnboarding/ProgressBar";
 import { SectionHeader } from "../../components/profileOnboarding/SectionHeader";
-import { Divider } from "../../common/Divider";
 import { Button } from "../../common/Button";
 import { HashtagInput } from "../../components/profileOnboarding/HashtagInput";
 import { useOnboardingStore } from "../../store/onboardingStore";
@@ -66,14 +65,12 @@ export const Onboarding_Preference = () => {
             ))}
           </ChipStack>
 
-          <Divider />
-
-          <SectionHeader
-            title="취향 해시태그"
-            subTitle="10자 이내로 작성해주세요"
-          />
-
-          <HashtagInput />
+          {interestDetail && (
+            <HashtagInput
+              interest={currentInterest}
+              interestDetail={interestDetail}
+            />
+          )}
         </div>
       </div>
 

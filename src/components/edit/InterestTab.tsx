@@ -36,19 +36,13 @@ export const InterestTab = () => {
         <SectionHeader title="취향 대분류" className="pt-4 pb-2.5" />
 
         <div className="flex justify-center">
-          <div
-            className="py-2.5 grid gap-2 justify-center w-full"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(65px, 1fr))",
-            }}
-          >
+          <div className="py-2.5 flex flex-wrap gap-2 w-full">
             {INTEREST_OPTIONS.map((option) => (
               <Chip
                 key={option.value}
                 variant="interest"
                 selected={selectedInterests === option.value}
                 label={option.label}
-                className="w-full justify-center"
                 onClick={() => handleSelect(option.value)}
               />
             ))}
@@ -70,22 +64,25 @@ export const InterestTab = () => {
                 />
               ))}
             </ChipStack>
-            <Divider />
-            <SectionHeader
-              title="취향 해시태그"
-              subTitle="10자 이내로 작성해주세요"
-            />
-            <HashtagInput />
+            {selectedGenre && (
+              <HashtagInput
+                interest={selectedInterests}
+                interestDetail={selectedGenre}
+              />
+            )}
           </>
         )}
       </div>
 
-      <div className="absolute bottom-0 max-w-[444px] w-full px-4 flex flex-col bg-white pb-8 shadow-dim-weak backdrop-blur-40">
-        <div className="w-full pt-2.5 pb-0.5"></div>
-        <div className="py-2.5">
-          <Button variant="primary">수정하기</Button>
+      {/* zustand 해시태그 저장하면서 해시태그 있을때 보이도록 추후 수정 */}
+      {selectedInterests && selectedGenre && (
+        <div className="absolute bottom-0 max-w-[444px] w-full px-4 flex flex-col bg-white pb-8 shadow-dim-weak backdrop-blur-40">
+          <div className="w-full pt-2.5 pb-0.5"></div>
+          <div className="py-2.5">
+            <Button variant="primary">수정하기</Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

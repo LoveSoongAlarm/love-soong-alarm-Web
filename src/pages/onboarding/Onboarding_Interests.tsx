@@ -35,10 +35,10 @@ export const Onboarding_Interests = () => {
 
         <div className="flex justify-center">
           <div
-            className="px-4 py-2.5 grid gap-2 justify-center w-full"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(65px, 1fr))",
-            }}
+            className="px-4 py-2.5 flex flex-wrap gap-2 w-full"
+            // style={{
+            //   gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+            // }}
           >
             {INTEREST_OPTIONS.map((option) => (
               <Chip
@@ -46,8 +46,8 @@ export const Onboarding_Interests = () => {
                 variant="interest"
                 selected={interests.includes(option.value)}
                 label={option.label}
-                className="w-full justify-center"
                 onClick={() => handleSelect(option.value)}
+                className="justify-center"
               />
             ))}
           </div>
