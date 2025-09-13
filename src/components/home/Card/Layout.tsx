@@ -28,30 +28,20 @@ export const CardLayout = ({ branch, children }: BottomSheetProps) => {
 
   const login = useAuthStore((state) => state.isModalOpen);
   const profile = useHomeStore((state) => state.checkProfile);
-  const alarm = useHomeStore((state) => state.checkAlarm);
   const chat = useHomeStore((state) => state.checkChat);
 
   const setLogin = useAuthStore((state) => state.setModalOpen);
   const setCheckProfile = useHomeStore((state) => state.setCheckProfile);
-  const setCheckAlarm = useHomeStore((state) => state.setCheckAlarm);
   const setCheckChat = useHomeStore((state) => state.setCheckChat);
 
   const isOpen =
-    branch === "login"
-      ? login
-      : branch === "profile"
-      ? profile
-      : branch === "alarm"
-      ? alarm
-      : chat;
+    branch === "login" ? login : branch === "profile" ? profile : chat;
 
   const onClose =
     branch === "login"
       ? setLogin
       : branch === "profile"
       ? setCheckProfile
-      : branch === "alarm"
-      ? setCheckAlarm
       : setCheckChat;
 
   useEffect(() => {
