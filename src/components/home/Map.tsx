@@ -6,13 +6,19 @@ declare global {
   }
 }
 
-const apikey = import.meta.env.VITE_KAKAO_MAP_KEY;
+const API_KEY = import.meta.env.VITE_KAKAO_MAP_KEY;
+const KAKAO_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${API_KEY}&libraries=services&autoload=false`;
+
+const SSU_LOCATION = {
+  lat: 37.4963538,
+  lng: 126.9572222,
+};
 
 const loadKakaoMap = () =>
   new Promise((resolve, reject) => {
     if (window.kakao?.maps) return resolve(window.kakao);
     const script = document.createElement("script");
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&libraries=services&autoload=false`;
+    script.src = KAKAO_URL;
     script.async = true;
     script.onload = () => resolve(window.kakao);
     script.onerror = () => reject(new Error("Failed to load Kakao Maps API"));
@@ -28,7 +34,7 @@ export const MapCanvas = () => {
         if (!container) return;
 
         const map = new kakao.maps.Map(container, {
-          center: new kakao.maps.LatLng(37.4963538, 126.9572222),
+          center: new kakao.maps.LatLng(SSU_LOCATION.lat, SSU_LOCATION.lng),
           level: 4,
           draggable: false,
           scrollwheel: false,
@@ -57,7 +63,7 @@ export const MapCanvas = () => {
       <div
         id="map"
         className="w-full h-full transform-gpu
-                   [filter:grayscale(80%)_saturate(70%)_brightness(108%)]"
+                   [filter:grayscale(50%)_saturate(70%)_brightness(108%)]"
         style={{
           transformOrigin: "center center",
           scale: 1,

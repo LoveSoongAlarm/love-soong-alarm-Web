@@ -1,3 +1,5 @@
+import { useNavigate, useRevalidator } from "react-router-dom";
+
 import { useAuthStore } from "../../store/authStore";
 
 import Logo from "@/assets/icons/ic_lovin.svg";
@@ -10,6 +12,9 @@ import { Title } from "../../common/Title";
 import { Button } from "../../common/Button";
 
 export const ProfileCard = () => {
+  const revalidate = useRevalidator();
+  const navigate = useNavigate();
+
   const isAuth = useAuthStore((state) => state.isAuth);
   const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);
 
@@ -38,9 +43,24 @@ export const ProfileCard = () => {
         <div className="flex flex-row items-center justify-between py-3.5 px-4">
           <img src={Logo} alt={"Logo"} className="w-8 h-8" />
           <div className="flex flex-row gap-x-4">
-            <img src={Coin} alt={"Coin"} className="w-6 h-6" />
-            <img src={Alarm} alt={"Alarm"} className="w-6 h-6" />
-            <img src={Setting} alt={"Setting"} className="w-6 h-6" />
+            <img
+              src={Coin}
+              alt={"Coin"}
+              className="w-6 h-6 cursor-pointer"
+              onClick={() => navigate("/coin")}
+            />
+            <img
+              src={Alarm}
+              alt={"Alarm"}
+              className="w-6 h-6 cursor-pointer"
+              onClick={() => navigate("/alarm")}
+            />
+            <img
+              src={Setting}
+              alt={"Setting"}
+              className="w-6 h-6 cursor-pointer"
+              onClick={() => navigate("/setting")}
+            />
           </div>
         </div>
 
@@ -53,7 +73,10 @@ export const ProfileCard = () => {
           </div>
           <div className="flex flex-row items-center gap-x-x cursor-pointer">
             <img src={Reload} alt={"Reload"} className="w-5 h-5" />
-            <div className="text-[14px] font-normal text-additive underline">
+            <div
+              className="text-[14px] font-normal text-additive underline"
+              onClick={() => revalidate.revalidate()}
+            >
               새로고침
             </div>
           </div>
