@@ -46,9 +46,8 @@ const Header = () => {
 };
 
 export const LoginCard = () => {
-  const navigate = useNavigate();
-
   const loginType = useAuthStore((state) => state.loginType);
+  const navigate = useNavigate();
 
   return (
     <div className="relative">
@@ -63,11 +62,9 @@ export const LoginCard = () => {
         </div>
       </div>
 
-      <Button
-        variant="primary"
-        children="카카오톡으로 로그인"
-        onClick={() => navigate("/redirect")}
-      />
+      <Button variant="primary" onClick={() => navigate("/redirect")}>
+        카카오톡으로 로그인
+      </Button>
     </div>
   );
 };

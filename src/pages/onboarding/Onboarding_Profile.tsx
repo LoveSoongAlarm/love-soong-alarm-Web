@@ -17,13 +17,15 @@ export const Onboarding_Profile = () => {
     nickname,
     gender,
     department,
+    birthYear,
     setEmoji,
     setNickname,
     setGender,
     setDepartment,
+    setBirthYear,
   } = useOnboardingStore();
 
-  const isFilled = emoji && nickname && gender && department;
+  const isFilled = emoji && nickname && gender && department && birthYear;
   console.log(isFilled);
 
   const onChangeEmoji = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +58,7 @@ export const Onboarding_Profile = () => {
               onChange={onChangeEmoji}
               maxLength={4}
             />
-            <div className="px-1 py-2.5 text-assistive text-xs font-normal">
+            <div className="px-1 pt-2.5 text-assistive text-xs font-normal">
               키보드에서 이모티콘을 자유롭게 입력해주세요!
             </div>
           </div>
@@ -83,20 +85,21 @@ export const Onboarding_Profile = () => {
                 />
               ))}
             </div>
-
-            <div className="py-2">
-              <span className="px-1 pb-2 text-sm text-additive font-medium">
-                생년월일
-              </span>
-            </div>
-
-            <Input
-              label="(선택) 학과(혹은 학부)"
-              placeholder="예시) 컴퓨터학부"
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-            />
           </div>
+
+          <Input
+            label="생년월일"
+            placeholder="예시) 2006년"
+            value={birthYear}
+            onChange={(e) => setBirthYear(e.target.value)}
+          />
+
+          <Input
+            label="학과(혹은 학부)"
+            placeholder="예시) 컴퓨터학부"
+            value={department}
+            onChange={(e) => setDepartment(e.target.value)}
+          />
         </div>
       </div>
 
