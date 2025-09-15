@@ -43,10 +43,9 @@ export const Onboarding_Profile = () => {
       </div>
 
       <div className="overflow-y-auto pb-35 scrollbar-none">
-        <Description
-          title="필수 프로필을 입력해주세요"
-          subTitle="이곳은 누구나 볼 수 있는. 프로필이에요."
-        />
+        <Description title="필수 프로필을 입력해주세요">
+          이곳은 누구나 볼 수 있는 프로필이에요.
+        </Description>
 
         <div className="flex flex-col px-4 py-2 gap-4 ">
           <div className="flex flex-col">

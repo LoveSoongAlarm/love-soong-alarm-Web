@@ -28,10 +28,9 @@ export const Onboarding_Interests = () => {
         <Header title="60% 작성 완료" />
         <ProgressBar per="60%" />
 
-        <Description
-          title="내 취향 2개를 선택해주세요"
-          subTitle="이 정보를 바탕으로 운명의 이성이 매치돼요!"
-        />
+        <Description title="내 취향 2개를 선택해주세요">
+          이 정보를 바탕으로 운명의 이성이 매치돼요!
+        </Description>
 
         <div className="flex justify-center">
           <div
