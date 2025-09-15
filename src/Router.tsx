@@ -19,6 +19,7 @@ import { Setting } from "./pages/Setting";
 import { Alarm } from "./pages/Alarm";
 import { ChatLoader, HomeLoader } from "./hooks/loader";
 import { CoinCallback } from "./pages/CoinCallback";
+import { Splash } from "./pages/Splash";
 
 export const router = createBrowserRouter([
   {
@@ -62,11 +63,15 @@ export const router = createBrowserRouter([
         element: <EditPage />,
       },
       {
+        path: "/redirect",
+        element: <Redirect />,
+      },
+      {
         element: <PrivateLayout />,
         children: [
           {
-            path: "/redirect",
-            element: <Redirect />,
+            path: "/splash",
+            element: <Splash />,
           },
           {
             path: "/coin",
