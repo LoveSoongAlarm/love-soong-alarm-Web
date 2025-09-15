@@ -13,6 +13,7 @@ import { CardLayout } from "../components/home/Card/Layout";
 import { useAuthStore } from "../store/authStore";
 import { MapCanvas } from "../components/home/Map";
 import { LoginCard } from "../components/home/Card/LoginCard";
+import { useLoaderData } from "react-router-dom";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
@@ -47,6 +48,9 @@ const RenderCard = () => (
 );
 
 export const Home = () => {
+  const { testData } = useLoaderData();
+  console.log(testData);
+
   const isAuth = useAuthStore((state) => state.isAuth);
 
   const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);

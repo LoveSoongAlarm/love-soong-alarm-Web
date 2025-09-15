@@ -17,6 +17,7 @@ import { ChatLayout } from "./components/chat/Layout";
 import { Coin } from "./pages/Coin";
 import { Setting } from "./pages/Setting";
 import { Alarm } from "./pages/Alarm";
+import { HomeLoader, TestLoader } from "./hooks/loader";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+        loader: HomeLoader,
       },
       {
         path: "/signup",
