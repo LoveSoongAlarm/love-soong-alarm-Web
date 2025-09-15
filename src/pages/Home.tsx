@@ -49,7 +49,6 @@ const RenderCard = () => (
 
 export const Home = () => {
   const { testData } = useLoaderData();
-  console.log(testData);
 
   const isAuth = useAuthStore((state) => state.isAuth);
 

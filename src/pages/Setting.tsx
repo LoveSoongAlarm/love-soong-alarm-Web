@@ -1,4 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+
+import { CardLayout } from "../components/home/Card/Layout";
+import { LogoutCard } from "../components/home/Card/Logout";
+import { MemberOutcard } from "../components/home/Card/MemberOut";
 
 import Edit from "@/assets/icons/ic_edit.svg";
 import Info from "@/assets/icons/ic_info.svg";
@@ -7,6 +12,18 @@ import Insta from "@/assets/icons/ic_insta.svg";
 import Delete from "@/assets/icons/ic_log_delete.svg";
 import Logout from "@/assets/icons/ic_color_logout.svg";
 import Right_Button from "@/assets/icons/ic_right_button.svg";
+
+const RenderCard = () => (
+  <>
+    <CardLayout branch="logout">
+      <LogoutCard />
+    </CardLayout>
+
+    <CardLayout branch="memberout">
+      <MemberOutcard />
+    </CardLayout>
+  </>
+);
 
 const List = ({
   onClick,
@@ -42,29 +59,52 @@ const List = ({
 export const Setting = () => {
   const navigate = useNavigate();
 
+  const setIsMemberOutOpen = useAuthStore((state) => state.setIsMemberOutOpen);
+  const setIsLogoutOpen = useAuthStore((state) => state.setIsLogoutOpen);
+
   return (
-    <div className="flex flex-col w-full h-full justify-between">
-      <div className="w-full flex flex-col ">
-        <List onClick={() => navigate("/")} img={Edit} title="내 프로필 수정" />
-        <List
-          onClick={() => navigate("/")}
-          img={Info}
-          title="개인정보 이용약관"
-        />
+    <>
+      <div className="flex flex-col w-full h-full justify-between">
+        <div className="w-full flex flex-col ">
+          <List
+            onClick={() => navigate("/")}
+            img={Edit}
+            title="내 프로필 수정"
+          />
+          <List
+            onClick={() => navigate("/")}
+            img={Info}
+            title="개인정보 이용약관"
+          />
 
-        <div className="w-full h-1 bg-divider-regular my-2.5" />
+          <div className="w-full h-1 bg-divider-regular my-2.5" />
 
-        <List onClick={() => navigate("/")} img={Kakao} title="카카오톡 문의" />
-        <List
-          onClick={() => navigate("/")}
-          img={Insta}
-          title="인스타그램 문의"
-        />
+          <List
+            onClick={() => navigate("/")}
+            img={Kakao}
+            title="카카오톡 문의"
+          />
+          <List
+            onClick={() => navigate("/")}
+            img={Insta}
+            title="인스타그램 문의"
+          />
+        </div>
+        <div className="flex flex-col">
+          <List
+            onClick={() => setIsMemberOutOpen(true)}
+            img={Delete}
+            title="탈퇴하기"
+          />
+          <List
+            onClick={() => setIsLogoutOpen(true)}
+            img={Logout}
+            title="로그아웃"
+          />
+        </div>
       </div>
-      <div className="flex flex-col">
-        <List onClick={() => navigate("/")} img={Delete} title="탈퇴하기" />
-        <List onClick={() => navigate("/")} img={Logout} title="로그아웃" />
-      </div>
-    </div>
+
+      <RenderCard />
+    </>
   );
 };

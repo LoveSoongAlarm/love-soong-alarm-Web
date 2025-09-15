@@ -17,7 +17,7 @@ import { ChatLayout } from "./components/chat/Layout";
 import { Coin } from "./pages/Coin";
 import { Setting } from "./pages/Setting";
 import { Alarm } from "./pages/Alarm";
-import { HomeLoader, TestLoader } from "./hooks/loader";
+import { HomeLoader } from "./hooks/loader";
 
 export const router = createBrowserRouter([
   {
