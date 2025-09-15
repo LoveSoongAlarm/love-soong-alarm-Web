@@ -8,7 +8,6 @@ import { ProfileCard } from "../components/home/Profile";
 
 import { useHomeStore } from "../store/homeStore";
 import { ProfilePreview } from "../components/home/Card/ProfilePreview";
-import { AlramPreview } from "../components/home/Card/Alram";
 import { ChatPreview } from "../components/home/Card/ChatPreview";
 import { CardLayout } from "../components/home/Card/Layout";
 import { useAuthStore } from "../store/authStore";
@@ -39,10 +38,6 @@ const RenderCard = () => (
 
     <CardLayout branch="profile">
       <ProfilePreview />
-    </CardLayout>
-
-    <CardLayout branch="alarm">
-      <AlramPreview />
     </CardLayout>
 
     <CardLayout branch="chat">
