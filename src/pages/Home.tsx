@@ -48,13 +48,15 @@ const RenderCard = () => (
 );
 
 export const Home = () => {
-  const { testData } = useLoaderData();
+  const { locationData, chatLists } = useLoaderData();
 
   const isAuth = useAuthStore((state) => state.isAuth);
 
   const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);
   const setCheckProfile = useHomeStore((state) => state.setCheckProfile);
   const setCheckChat = useHomeStore((state) => state.setCheckChat);
+
+  console.log(locationData, chatLists);
 
   return (
     <>

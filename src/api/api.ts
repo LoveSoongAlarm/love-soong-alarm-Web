@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 
 interface BasicResponse<T> {
   data: T;
@@ -22,10 +22,14 @@ export const useApi = () => {
     params?: Record<string, any>
   ): Promise<T> => {
     try {
-      const response: BasicResponse<T> = await axiosInstance.get(url, {
-        params,
-      });
-      return response.data;
+      const response: AxiosResponse<BasicResponse<T>> = await axiosInstance.get(
+        url,
+        {
+          params,
+        }
+      );
+
+      return response.data.data;
 
       // TODO: statusCode 가 생기면 추가할 로직
       //   if (response.status === 200) {
@@ -44,9 +48,35 @@ export const useApi = () => {
     data: Record<string, any>
   ): Promise<T> => {
     try {
-      const response: BasicResponse<T> = await axiosInstance.patch(url, data);
+      const response: AxiosResponse<BasicResponse<T>> =
+        await axiosInstance.patch(url, data);
 
-      return response.data;
+      return response.data.data;
+      // TODO: statusCode 가 생기면 추가할 로직
+      //   if (response.status === 200 || response.status === 201) {
+      //     return response.data;
+      //   } else if (response.status === 302) {
+      //     return { ...response.data, status: 302 };
+      //   } else {
+      //     return response.data;
+      //   }
+    } catch (error: any) {
+      handleApiError(error);
+      throw error;
+    }
+  };
+
+  const putData = async <T>(
+    url: string,
+    data: Record<string, any>
+  ): Promise<T> => {
+    try {
+      const response: AxiosResponse<BasicResponse<T>> = await axiosInstance.put(
+        url,
+        data
+      );
+
+      return response.data.data;
       // TODO: statusCode 가 생기면 추가할 로직
       //   if (response.status === 200 || response.status === 201) {
       //     return response.data;
@@ -66,9 +96,10 @@ export const useApi = () => {
     data: Record<string, any>
   ): Promise<T> => {
     try {
-      const response: BasicResponse<T> = await axiosInstance.post(url, data);
+      const response: AxiosResponse<BasicResponse<T>> =
+        await axiosInstance.post(url, data);
 
-      return response.data;
+      return response.data.data;
 
       // TODO: statusCode 가 생기면 추가할 로직
       //   if (response.status === 200 || response.status === 201) {
@@ -93,9 +124,10 @@ export const useApi = () => {
 
   const deleteData = async <T>(url: string): Promise<T> => {
     try {
-      const response: BasicResponse<T> = await axiosInstance.delete(url);
+      const response: AxiosResponse<BasicResponse<T>> =
+        await axiosInstance.delete(url);
 
-      return response.data;
+      return response.data.data;
     } catch (error: any) {
       handleApiError(error);
       throw error;
@@ -118,7 +150,19 @@ export const useApi = () => {
   return {
     getData,
     patchData,
+    putData,
     postData,
     deleteData,
   };
+};
+
+const { getData } = useApi();
+
+export const healthCheck = async () => {
+  try {
+    const response = await getData("/api/v1/health-check");
+    return response;
+  } catch (error: any) {
+    console.log(error);
+  }
 };
