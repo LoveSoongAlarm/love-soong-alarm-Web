@@ -9,18 +9,18 @@ import { useOnboardingStore } from "../../store/onboardingStore";
 import { INTEREST_OPTIONS } from "../../constants/interests";
 
 export const Onboarding_Interests = () => {
-  const { interests, setInterests } = useOnboardingStore();
+  const { currentLabels, setCurrentLabels } = useOnboardingStore();
 
   const handleSelect = (value: string) => {
-    if (interests.includes(value)) {
-      setInterests(interests.filter((item) => item !== value));
+    if (currentLabels.includes(value)) {
+      setCurrentLabels(currentLabels.filter((item) => item !== value));
     } else {
-      if (interests.length >= 2) return;
-      setInterests([...interests, value]);
+      if (currentLabels.length >= 2) return;
+      setCurrentLabels([...currentLabels, value]);
     }
   };
 
-  const isFilled = interests.length;
+  const isFilled = currentLabels.length;
 
   return (
     <div className="h-full flex flex-col justify-between relative">
@@ -43,7 +43,7 @@ export const Onboarding_Interests = () => {
               <Chip
                 key={option.value}
                 variant="interest"
-                selected={interests.includes(option.value)}
+                selected={currentLabels.includes(option.value)}
                 label={option.label}
                 onClick={() => handleSelect(option.value)}
                 className="justify-center"

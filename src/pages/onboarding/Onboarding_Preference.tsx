@@ -9,35 +9,74 @@ import { HashtagInput } from "../../components/profileOnboarding/HashtagInput";
 import { useOnboardingStore } from "../../store/onboardingStore";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { GENRE_OPTIONS } from "../../constants/genres";
+import { useEffect } from "react";
+import axios from "axios";
 
 export const Onboarding_Preference = () => {
   const { step } = useParams();
   const navigate = useNavigate();
-  const { interests, interestDetail, setInterestDetail, hashtags } =
-    useOnboardingStore();
+  const {
+    currentLabels,
+    setCurrentLabel,
+    currentDetail,
+    currentHashtags,
+    setCurrentDetail,
+    addCurrentInterest,
+  } = useOnboardingStore();
 
   const currentStep = Number(step || 0);
-  const currentInterest = interests[currentStep];
-  const genres = GENRE_OPTIONS[currentInterest] || [];
+  const isLast = currentStep === currentLabels.length - 1;
+  const label = currentLabels[currentStep];
+  const genres = GENRE_OPTIONS[label] || [];
 
-  const handleGenreClick = (genre: string) => {
-    if (interestDetail === genre) {
-      setInterestDetail(null);
-    } else {
-      setInterestDetail(genre);
+  useEffect(() => {
+    setCurrentLabel(label);
+  }, [label]);
+
+  const isFilled = !!(currentDetail && currentHashtags.length > 0);
+  // 임시
+  const accessToken = localStorage.getItem("accessToken");
+
+  const sendOnboarding = async () => {
+    const state = useOnboardingStore.getState();
+
+    const payload = {
+      nickname: state.nickname,
+      major: state.major,
+      birthDate: Number(state.birthDate),
+      gender: state.gender,
+      emoji: state.emoji,
+      interests: state.interests,
+    };
+
+    try {
+      const res = await axios.patch(
+        `${import.meta.env.VITE_BASE_URL}/api/users/on-boarding`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const { data } = res;
+      if (data.success) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const isFilled = !!(interestDetail && hashtags.length > 0);
-  const isLast = currentStep === interests.length - 1;
-
   const handleNext = () => {
     if (!isFilled) return;
+    addCurrentInterest();
 
     if (isLast) {
-      // 시작하기(온보딩 api) 호출
+      // api 연동
+      sendOnboarding();
     } else {
-      navigate("/onboarding/preference/1");
+      navigate(`/onboarding/preference/${currentStep + 1}`);
     }
   };
 
@@ -56,19 +95,17 @@ export const Onboarding_Preference = () => {
           <ChipStack>
             {genres.map((genre) => (
               <Chip
+                key={genre.label}
                 variant="detail"
-                selected={interestDetail === genre.value}
+                selected={currentDetail === genre.value}
                 label={genre.label}
-                onClick={() => handleGenreClick(genre.value)}
+                onClick={() => setCurrentDetail(genre.value)}
               />
             ))}
           </ChipStack>
 
-          {interestDetail && (
-            <HashtagInput
-              interest={currentInterest}
-              interestDetail={interestDetail}
-            />
+          {currentDetail && (
+            <HashtagInput interest={label} interestDetail={currentDetail} />
           )}
         </div>
       </div>
@@ -77,6 +114,7 @@ export const Onboarding_Preference = () => {
         <Button
           variant={isFilled ? "primary" : "disabled"}
           onClick={handleNext}
+          type="button"
         >
           {isLast ? "시작하기" : "다음으로"}
         </Button>
