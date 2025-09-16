@@ -8,13 +8,25 @@ interface BasicResponse<T> {
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
+  withCredentials: true,
   headers: {
     Authorization: `Bearer ${import.meta.env.VITE_MASTER_TOKEN}`,
   },
   timeout: 180000,
-  // TODO: 토큰을 쿠키에 저장할때
-  // withCredentials: true, // Allow sending cookies in cross-origin requests
 });
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const useApi = () => {
   const getData = async <T>(
