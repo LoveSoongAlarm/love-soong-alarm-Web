@@ -18,6 +18,7 @@ import { Coin } from "./pages/Coin";
 import { Setting } from "./pages/Setting";
 import { Alarm } from "./pages/Alarm";
 import { ChatLoader, HomeLoader } from "./hooks/loader";
+import { CoinCallback } from "./pages/CoinCallback";
 
 export const router = createBrowserRouter([
   {
@@ -71,6 +72,11 @@ export const router = createBrowserRouter([
             path: "/coin",
             element: <Coin />,
           },
+          {
+            path: "/coin/callback",
+            element: <CoinCallback />,
+          },
+
           {
             path: "/alarm",
             element: <Alarm />,
