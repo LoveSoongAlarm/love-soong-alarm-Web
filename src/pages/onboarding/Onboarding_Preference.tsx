@@ -10,7 +10,7 @@ import { useOnboardingStore } from "../../store/onboardingStore";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { GENRE_OPTIONS } from "../../constants/genres";
 import { useEffect } from "react";
-import axios from "axios";
+import { useApi } from "../../api/api";
 
 export const Onboarding_Preference = () => {
   const { step } = useParams();
@@ -34,8 +34,8 @@ export const Onboarding_Preference = () => {
   }, [label]);
 
   const isFilled = !!(currentDetail && currentHashtags.length > 0);
-  // 임시
-  const accessToken = localStorage.getItem("accessToken");
+
+  const { patchData } = useApi();
 
   const sendOnboarding = async () => {
     const state = useOnboardingStore.getState();
@@ -50,18 +50,9 @@ export const Onboarding_Preference = () => {
     };
 
     try {
-      const res = await axios.patch(
-        `${import.meta.env.VITE_BASE_URL}/api/users/on-boarding`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      const { data } = res;
+      const data = await patchData("/api/users/on-boarding", payload);
       if (data.success) {
-        navigate("/");
+        navigate("/splash");
       }
     } catch (err) {
       console.error(err);

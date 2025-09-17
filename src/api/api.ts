@@ -62,12 +62,12 @@ export const useApi = () => {
   const patchData = async <T>(
     url: string,
     data: Record<string, any>
-  ): Promise<T> => {
+  ): Promise<BasicResponse<T>> => {
     try {
       const response: AxiosResponse<BasicResponse<T>> =
         await axiosInstance.patch(url, data);
 
-      return response.data.data;
+      return response.data;
       // TODO: statusCode 가 생기면 추가할 로직
       //   if (response.status === 200 || response.status === 201) {
       //     return response.data;
