@@ -28,7 +28,6 @@ export const useApi = () => {
           params,
         }
       );
-
       return response.data.data;
 
       // TODO: statusCode 가 생기면 추가할 로직
