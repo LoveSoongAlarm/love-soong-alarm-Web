@@ -12,9 +12,7 @@ export const Layout = () => {
         transition={{ duration: 0.45, ease: "easeOut" }}
         className="relative w-full h-full overflow-hidden"
       >
-        <div>
-          <Outlet />
-        </div>
+        <Outlet />
       </motion.div>
     </AnimatePresence>
   );
