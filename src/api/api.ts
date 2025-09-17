@@ -36,7 +36,7 @@ export const useApi = () => {
   const getData = async <T>(
     url: string,
     params?: Record<string, any>
-  ): Promise<T> => {
+  ): Promise<BasicResponse<T>> => {
     try {
       const response: AxiosResponse<BasicResponse<T>> = await axiosInstance.get(
         url,
@@ -45,14 +45,7 @@ export const useApi = () => {
         }
       );
 
-      return response.data.data;
-
-      // TODO: statusCode 가 생기면 추가할 로직
-      //   if (response.status === 200) {
-      //     return response.data;
-      //   } else {
-      //     throw new Error("Failed to fetch data");
-      //   }
+      return response.data;
     } catch (error: any) {
       handleApiError(error);
       throw error;
@@ -68,14 +61,6 @@ export const useApi = () => {
         await axiosInstance.patch(url, data);
 
       return response.data;
-      // TODO: statusCode 가 생기면 추가할 로직
-      //   if (response.status === 200 || response.status === 201) {
-      //     return response.data;
-      //   } else if (response.status === 302) {
-      //     return { ...response.data, status: 302 };
-      //   } else {
-      //     return response.data;
-      //   }
     } catch (error: any) {
       handleApiError(error);
       throw error;
@@ -85,22 +70,14 @@ export const useApi = () => {
   const putData = async <T>(
     url: string,
     data: Record<string, any>
-  ): Promise<T> => {
+  ): Promise<BasicResponse<T>> => {
     try {
       const response: AxiosResponse<BasicResponse<T>> = await axiosInstance.put(
         url,
         data
       );
 
-      return response.data.data;
-      // TODO: statusCode 가 생기면 추가할 로직
-      //   if (response.status === 200 || response.status === 201) {
-      //     return response.data;
-      //   } else if (response.status === 302) {
-      //     return { ...response.data, status: 302 };
-      //   } else {
-      //     return response.data;
-      //   }
+      return response.data;
     } catch (error: any) {
       handleApiError(error);
       throw error;
@@ -110,40 +87,24 @@ export const useApi = () => {
   const postData = async <T>(
     url: string,
     data: Record<string, any>
-  ): Promise<T> => {
+  ): Promise<BasicResponse<T>> => {
     try {
       const response: AxiosResponse<BasicResponse<T>> =
         await axiosInstance.post(url, data);
 
-      return response.data.data;
-
-      // TODO: statusCode 가 생기면 추가할 로직
-      //   if (response.status === 200 || response.status === 201) {
-      //     return response.data;
-      //   } else if (response.status === 302) {
-      //     return { ...response.data, status: 302 };
-      //   } else {
-      //     return response.data;
-      //   }
-      //   if (response.status === 200 || response.status === 201) {
-      //     return response.data;
-      //   } else if (response.status === 302) {
-      //     return { ...response.data, status: 302 };
-      //   } else {
-      //     throw new Error("Failed to post data");
-      //   }
+      return response.data;
     } catch (error: any) {
       handleApiError(error);
       throw error;
     }
   };
 
-  const deleteData = async <T>(url: string): Promise<T> => {
+  const deleteData = async <T>(url: string): Promise<BasicResponse<T>> => {
     try {
       const response: AxiosResponse<BasicResponse<T>> =
         await axiosInstance.delete(url);
 
-      return response.data.data;
+      return response.data;
     } catch (error: any) {
       handleApiError(error);
       throw error;

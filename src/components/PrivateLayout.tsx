@@ -5,13 +5,13 @@ export const PrivateLayout = () => {
   const { pathname } = useLocation();
 
   const HEADER_TEXT =
-    pathname === "coin"
+    pathname === "/coin"
       ? "충전"
-      : pathname === "alarm"
+      : pathname === "/alarm"
       ? "알림"
-      : pathname === "setting"
+      : pathname === "/setting"
       ? "설정"
-      : pathname === "chat"
+      : pathname === "/chat"
       ? "채팅"
       : "";
 
