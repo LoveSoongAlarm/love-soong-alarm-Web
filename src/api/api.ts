@@ -9,24 +9,28 @@ interface BasicResponse<T> {
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
-  headers: {
-    Authorization: `Bearer ${import.meta.env.VITE_MASTER_TOKEN}`,
-  },
+  headers: import.meta.env.DEV
+    ? {
+        Authorization: `Bearer ${import.meta.env.VITE_MASTER_TOKEN}`,
+      }
+    : {},
   timeout: 180000,
 });
 
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+if (import.meta.env.PROD) {
+  axiosInstance.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+  );
+}
 
 export const useApi = () => {
   const getData = async <T>(
