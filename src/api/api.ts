@@ -89,7 +89,7 @@ export const useApi = () => {
 
   const postData = async <T>(
     url: string,
-    data: Record<string, any>
+    data?: Record<string, any>
   ): Promise<BasicResponse<T>> => {
     try {
       const response: AxiosResponse<BasicResponse<T>> =
