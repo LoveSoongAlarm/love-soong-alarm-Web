@@ -1,46 +1,91 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+
+interface Interest {
+  label: string;
+  detailLabel: string;
+  hashTags: string[];
+}
 
 interface OnboardingState {
   emoji: string;
   nickname: string;
-  gender: "남성" | "여성" | null;
-  birthYear: string;
-  department: string;
+  gender: "MALE" | "FEMALE" | null;
+  birthDate: string;
+  major: string;
 
-  interests: string[];
-  interestDetail: string;
-  hashtags: string[];
+  interests: Interest[];
 
-  // 개별 함수 업데이트
+  currentLabels: string[];
+  currentLabel: string | null;
+  currentDetail: string | null;
+  currentHashtags: string[];
+
   setEmoji: (emoji: string) => void;
   setNickname: (nickname: string) => void;
-  setGender: (gender: "남성" | "여성") => void;
-  setBirthYear: (year: string) => void;
-  setDepartment: (department: string) => void;
+  setGender: (gender: "MALE" | "FEMALE") => void;
+  setBirthDate: (year: string) => void;
+  setMajor: (department: string) => void;
 
-  setInterests: (interests: string[]) => void;
-  setInterestDetail: (detail: string) => void;
-  setHashtags: (hashtags: string[]) => void;
+  setCurrentLabels: (labels: string[]) => void;
+  setCurrentLabel: (label: string | null) => void;
+  setCurrentDetail: (detail: string | null) => void;
+  setCurrentHashtags: (hashtags: string[]) => void;
+
+  addCurrentInterest: () => void;
 }
 
-export const useOnboardingStore = create<OnboardingState>((set) => ({
-  emoji: "",
-  nickname: "",
-  gender: null,
-  birthYear: "",
-  department: "",
+export const useOnboardingStore = create<OnboardingState>()(
+  persist(
+    (set, get) => ({
+      emoji: "",
+      nickname: "",
+      gender: null,
+      birthDate: "",
+      major: "",
 
-  interests: [],
-  interestDetail: "",
-  hashtags: [],
+      interests: [],
 
-  setEmoji: (emoji) => set({ emoji }),
-  setNickname: (nickname) => set({ nickname }),
-  setGender: (gender) => set({ gender }),
-  setBirthYear: (birthYear) => set({ birthYear }),
-  setDepartment: (department) => set({ department }),
+      currentLabels: [],
+      currentLabel: null,
+      currentDetail: null,
+      currentHashtags: [],
 
-  setInterests: (interests) => set({ interests }),
-  setInterestDetail: (detail) => set({ interestDetail: detail }),
-  setHashtags: (hashtags) => set({ hashtags }),
-}));
+      setEmoji: (emoji) => set({ emoji }),
+      setNickname: (nickname) => set({ nickname }),
+      setGender: (gender) => set({ gender }),
+      setBirthDate: (birthDate) => set({ birthDate }),
+      setMajor: (major) => set({ major }),
+
+      setCurrentLabels: (labels) => set({ currentLabels: labels }),
+      setCurrentLabel: (label) => set({ currentLabel: label }),
+      setCurrentDetail: (detail) => set({ currentDetail: detail }),
+      setCurrentHashtags: (hashtags) => set({ currentHashtags: hashtags }),
+
+      addCurrentInterest: () => {
+        const { currentLabel, currentDetail, currentHashtags, interests } =
+          get();
+
+        if (!currentLabel || !currentDetail || currentHashtags.length === 0)
+          return;
+
+        const newInterest: Interest = {
+          label: currentLabel,
+          detailLabel: currentDetail,
+          hashTags: currentHashtags,
+        };
+
+        set({
+          interests: [...interests, newInterest],
+          currentLabel: null,
+          currentDetail: null,
+          currentHashtags: [],
+        });
+      },
+    }),
+    {
+      name: "onboarding-storage",
+      storage: createJSONStorage(() => sessionStorage),
+    }
+  )
+);

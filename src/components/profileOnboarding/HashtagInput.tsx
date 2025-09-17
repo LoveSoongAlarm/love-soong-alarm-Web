@@ -2,31 +2,42 @@ import { useRef, useState } from "react";
 import { Chip } from "./Chip";
 import CloseIcon from "@/assets/icons/close.svg?url";
 import { ChipStack } from "./ChipStack";
+import { useOnboardingStore } from "../../store/onboardingStore";
+import { HASHTAG_SUGGESTIONS } from "../../constants/hashtag_suggestions";
+import { SectionHeader } from "./SectionHeader";
+import { Divider } from "../../common/Divider";
 
-const recommendHashTags = [
-  { label: "검정치마", value: "검정치마" },
-  { label: "쏜애플", value: "쏜애플" },
-  { label: "오아시스", value: "오아시스" },
-  { label: "데이식스", value: "데이식스" },
-  { label: "블러", value: "블러" },
-  { label: "잔나비", value: "잔나비" },
-];
+interface Props {
+  interest: string;
+  interestDetail: string | null;
+}
 
-export const HashtagInput = () => {
-  const [hashtags, setHashtags] = useState<string[]>([]);
+export const HashtagInput = ({ interest, interestDetail }: Props) => {
+  const { currentHashtags, setCurrentHashtags } = useOnboardingStore();
   const [inputValue, setInputValue] = useState("");
   const ContainerRef = useRef<HTMLDivElement>(null);
 
+  const hashtag_suggestions =
+    interest && interestDetail
+      ? (HASHTAG_SUGGESTIONS[interest as keyof typeof HASHTAG_SUGGESTIONS]?.[
+          interestDetail as keyof (typeof HASHTAG_SUGGESTIONS)[keyof typeof HASHTAG_SUGGESTIONS]
+        ] as { label: string; value: string }[]) ?? []
+      : [];
+
   const addHashtag = () => {
     const trimmed = inputValue.trim();
-    if (trimmed && !hashtags.includes(trimmed) && hashtags.length < 2) {
-      setHashtags([...hashtags, trimmed]);
+    if (
+      trimmed &&
+      !currentHashtags.includes(trimmed) &&
+      currentHashtags.length < 2
+    ) {
+      setCurrentHashtags([...currentHashtags, trimmed]);
       setInputValue("");
     }
   };
 
   const removeHashtag = (tag: string) => {
-    setHashtags(hashtags.filter((t) => t !== tag));
+    setCurrentHashtags(currentHashtags.filter((t) => t !== tag));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -37,25 +48,30 @@ export const HashtagInput = () => {
   };
 
   const onClickHashTag = (tag: string) => {
-    if (hashtags.length >= 2) return;
-    setHashtags([...hashtags, tag]);
+    if (currentHashtags.length >= 2) return;
+    setCurrentHashtags([...currentHashtags, tag]);
   };
 
   return (
     <>
+      <Divider />
+      <SectionHeader
+        title="취향 해시태그"
+        subTitle="10자 이내로 작성해주세요"
+      />
       <div className="flex flex-wrap items-center gap-2 py-2.5">
-        {hashtags.map((tag) => (
+        {currentHashtags.map((tag) => (
           <Chip
             key={tag}
             variant="detail"
             label={tag}
             removable={true}
             handleRemove={() => removeHashtag(tag)}
-            className="!text-additive font-medium" // 왜 ! 안써주면 안 덮히는지 의문..
+            className="!text-additive font-medium"
           />
         ))}
 
-        {hashtags.length < 2 && (
+        {currentHashtags.length < 2 && (
           <div
             className="px-2 py-1.5 flex items-center gap-1 bg-fill-regular rounded-lg"
             ref={ContainerRef}
@@ -89,8 +105,9 @@ export const HashtagInput = () => {
         </span>
       </div>
       <ChipStack>
-        {recommendHashTags.map((hashTag) => (
+        {hashtag_suggestions.map((hashTag) => (
           <Chip
+            key={hashTag.label}
             variant="detail"
             label={hashTag.label}
             className="!text-additive font-medium"
