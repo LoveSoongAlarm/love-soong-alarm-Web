@@ -33,18 +33,13 @@ export const Onboarding_Interests = () => {
         </Description>
 
         <div className="flex justify-center">
-          <div
-            className="px-4 py-2.5 flex flex-wrap gap-2 w-full"
-            // style={{
-            //   gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
-            // }}
-          >
+          <div className="px-4 py-2.5 flex flex-wrap gap-2 w-full">
             {INTEREST_OPTIONS.map((option) => (
               <Chip
                 key={option.value}
                 variant="interest"
                 selected={currentLabels.includes(option.value)}
-                label={option.label}
+                label={`${option.emoji} ${option.label}`}
                 onClick={() => handleSelect(option.value)}
                 className="justify-center"
               />
