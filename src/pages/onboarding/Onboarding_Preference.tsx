@@ -22,6 +22,7 @@ export const Onboarding_Preference = () => {
     currentHashtags,
     setCurrentDetail,
     addCurrentInterest,
+    reset,
   } = useOnboardingStore();
 
   const currentStep = Number(step || 0);
@@ -52,6 +53,8 @@ export const Onboarding_Preference = () => {
     try {
       const data = await patchData("/api/users/on-boarding", payload);
       if (data.success) {
+        reset();
+        sessionStorage.removeItem("onboarding-storage");
         navigate("/splash");
       }
     } catch (err) {
