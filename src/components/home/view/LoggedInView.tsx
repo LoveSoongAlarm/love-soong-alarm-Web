@@ -25,11 +25,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 // TEST DATA
 // const CORRECT_COUNT = 0;
-const CORRECT_COUNT = 1;
+// const CORRECT_COUNT = 1;
 
 const Button = ({ children, ...props }: ButtonProps) => {
   return (
-    <button className="p-4 bg-white rounded-[12px]" {...props}>
+    <button className="p-4 bg-white rounded-xl w-14 h-14" {...props}>
       {children}
     </button>
   );
@@ -98,13 +98,13 @@ export const LoggedInView = () => {
         } absolute flex flex-row gap-x-2 left-4 right-4 z-30 justify-between`}
       />
 
-      <div className="absolute flex flex-row gap-x-2 left-4 right-4 bottom-2 z-30 items-center">
+      <div className="absolute flex gap-2 left-3 right-3 bottom-2 z-30 items-center">
         <Button>
           <img src={Location} alt={"location"} />
         </Button>
 
         <HomeBottom
-          count={CORRECT_COUNT}
+          count={0}
           onClick={() => {
             if (!isAuth) {
               setIsModalOpen({ flag: true, type: "edit" });

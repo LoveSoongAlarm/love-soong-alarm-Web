@@ -5,6 +5,7 @@ import Close from "@/assets/icons/ic_close.svg";
 import { useSelectedUserStore } from "../store/useSelectedUserStore";
 import type { UserInterest } from "../types/User";
 import clsx from "clsx";
+import { HOME_PROFILE_CONST } from "../hooks/consts";
 
 export const CardHeader = ({
   branch,
@@ -41,6 +42,40 @@ export const CardHeader = ({
   );
 };
 
+export const hashtag = ({
+  label,
+  isActive,
+}: {
+  label: string;
+  isActive: boolean;
+}) => {
+  return (
+    <div
+      className={`${
+        isActive ? "text-main1 bg-main3" : "bg-[#AD929B]/8 text-[#331D24]/20"
+      } text-[12px] px-1.5 py-0.5 rounded-[4px]`}
+    >
+      #{label}
+    </div>
+  );
+};
+
+export const ProfileLabel = ({ name }: { name: "jo" | "kim" }) => {
+  const USER = HOME_PROFILE_CONST[name];
+
+  return (
+    <div className="flex flex-row gap-x-3 items-center">
+      <div>{USER.emoji}</div>
+      <div className="flex flex-col">
+        <div className="text-[18px]">{USER.name}</div>
+        <div className="text-[12px] text-[#331D24]/80">
+          {USER.age}세 | {USER.dept} | {USER.height}cm
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const Hashtag = ({
   label,
   isHashTag,
@@ -71,7 +106,7 @@ export const HashTagWrapper = ({ interest }: { interest: UserInterest }) => (
   </div>
 );
 
-export const ProfileLabel = () => {
+export const Profile = () => {
   const { selectedUser } = useSelectedUserStore();
 
   return (
