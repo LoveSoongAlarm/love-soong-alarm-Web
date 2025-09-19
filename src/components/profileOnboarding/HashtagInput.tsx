@@ -49,8 +49,10 @@ export const HashtagInput = ({
   };
 
   const onClickHashTag = (tag: string) => {
-    if (value.length >= 2) return;
-    onChange([...value, tag]);
+    const trimmed = tag.trim();
+    if (trimmed && !value.includes(trimmed) && value.length < 2) {
+      onChange([...value, tag]);
+    }
   };
 
   return (

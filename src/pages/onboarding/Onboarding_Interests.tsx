@@ -48,10 +48,16 @@ export const Onboarding_Interests = () => {
         </div>
       </div>
 
-      <div className="w-full mb-8 px-4 py-2.5 absolute bottom-0 bg-white">
+      <div className="w-full px-4 pb-2.5 pt-5.5 rounded-xl absolute bottom-0 bg-white flex flex-col gap-2 shadow-dim-weak backdrop-blur-40">
         <Link to="/onboarding/preference/0">
           <Button variant={isFilled ? "primary" : "disabled"}>다음으로</Button>
         </Link>
+
+        {!isFilled && (
+          <span className="text-assistive text-xs text-center font-normal leading-4.5 tracking-[-0.24px]">
+            취향을 하나 이상 선택해야 다음으로 넘어갈 수 있어요
+          </span>
+        )}
       </div>
     </div>
   );
