@@ -34,11 +34,12 @@ export const ProfileTab = () => {
 
   const handleEdit = async () => {
     const payload = toPayload(true);
+    const clientPayload = toPayload(false);
     try {
       const res = await putData("/api/users/me", payload);
       if (res.success) {
         console.log("수정성공");
-        initialize(payload);
+        initialize(clientPayload);
       }
     } catch (err) {
       console.error(err);
