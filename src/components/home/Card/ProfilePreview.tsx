@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../common/Button";
-import { CardHeader, Hashtag, ProfileLabel } from "../../Common";
+import { CardHeader } from "../../Common";
+// import { CardHeader, Hashtag, ProfileLabel } from "../../Common";
 import { useAuthStore } from "../../../store/authStore";
 
 import { useApi } from "../../../api/api";
