@@ -16,6 +16,8 @@ import { ProfileCard } from "../Profile";
 import { postLocation } from "../../../api/location";
 import { useStepLocationUpdate } from "../../../hooks/useLocationUpdate";
 import { HomeBottom } from "../Bottom";
+import { useLoaderData } from "react-router-dom";
+import { OutOfBoundsNotice } from "../OutOfBoundsNotice";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
@@ -54,7 +56,7 @@ const RenderCard = () => (
 export const LoggedInView = () => {
   // const revalidator = useRevalidator();
 
-  // const { locationData, chatLists } = useLoaderData();
+  const { locationData } = useLoaderData();
   const { location } = useGeoLocation();
 
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -83,15 +85,11 @@ export const LoggedInView = () => {
 
   return (
     <>
-      <MapCanvas />
-      <div
-        className={`${
-          isAuth ? "w-full" : "top-5 left-4 right-4"
-        } absolute z-30`}
-      >
+      <div className="w-full">
         <ProfileCard />
       </div>
 
+      {locationData ? <MapCanvas /> : <OutOfBoundsNotice />}
       <div
         className={`${
           isAuth ? "top-57" : "top-62"
