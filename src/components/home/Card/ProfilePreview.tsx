@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../common/Button";
-import { CardHeader } from "../../Common";
-// import { CardHeader, Hashtag, ProfileLabel } from "../../Common";
+import { CardHeader, HashTagWrapper, Profile } from "../../Common";
 import { useAuthStore } from "../../../store/authStore";
+import { useSelectedUserStore } from "../../../store/useSelectedUserStore";
 
 import { useApi } from "../../../api/api";
 import type { MakeChat } from "../../../types/chat";
@@ -12,6 +12,7 @@ import { useChatStore } from "../../../store/chatStore";
 export const ProfilePreview = () => {
   const navigate = useNavigate();
   const { postData } = useApi();
+  const { selectedUser } = useSelectedUserStore();
 
   const isAuth = useAuthStore((state) => state.isAuth);
   const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);
@@ -40,14 +41,14 @@ export const ProfilePreview = () => {
   return (
     <div className="relative">
       <CardHeader branch="profile" title="프로필 보기" />
-      {/* <div className="mb-3 flex items-start gap-3">
-        <ProfileLabel name="kim" />
+      <div className="mb-3 flex items-start gap-3">
+        <Profile />
       </div>
-      <div className="flex flex-row gap-x-1.5 py-2 overflow-x-scroll">
-        {PROFILE_MOCK.map((item, index) => (
-          <div key={index}>{hashtag(item)}</div>
+      <div className="flex gap-2 pb-2 overflow-x-auto">
+        {selectedUser?.interests.map((item) => (
+          <HashTagWrapper key={item.detailLabel} interest={item} />
         ))}
-      </div> */}
+      </div>
       <div className="flex py-2.5">
         <Button children="채팅하기" onClick={() => handleClick(2)} />
       </div>

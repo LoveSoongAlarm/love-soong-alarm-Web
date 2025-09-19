@@ -43,7 +43,7 @@ const List = ({ item }: { item: ChatRoom }) => {
   );
 };
 
-export const ChatPreview = ({ items }: { items: ChatRooms }) => {
+export const ChatPreview = ({ items }: { items?: ChatRooms }) => {
   return (
     <div className="relative">
       <CardHeader branch="chat" title="채팅" />

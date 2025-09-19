@@ -129,11 +129,10 @@ export const CardLayout = ({ branch, children }: BottomSheetProps) => {
               className="mx-auto w-full rounded-t-2xl bg-white flex flex-col"
               style={{ maxHeight: `calc(${maxHeightPct}vh)` }}
             >
-              <div className="flex items-center justify-center py-2 shrink-0">
-                <div className="h-1.5 w-12 rounded-full bg-gray-300" />
+              <div className="flex items-center justify-center pt-2.5 pb-0.5 shrink-0">
+                <div className="h-1.5 w-12 rounded-full bg-divider-regular" />
               </div>
-
-              <div className="px-4 pb-6 flex-1 min-h-0 overflow-y-auto">
+              <div className="overflow-y-auto flex-1 min-h-0 px-4">
                 {children}
               </div>
             </div>

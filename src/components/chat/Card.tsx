@@ -1,6 +1,6 @@
 import { Button_v2 } from "../../common/Button";
 
-import { Hashtag, ProfileLabel } from "../Common";
+import { Hashtag_v2, ProfileLabel } from "../Common";
 import { useChatStore } from "../../store/chatStore";
 import type { ChatDetail } from "../../types/chat";
 
@@ -18,7 +18,7 @@ export const ChatCard = ({ chatDetail }: { chatDetail: ChatDetail }) => {
 
       <div className="flex flex-row flex-nowrap gap-x-1.5 overflow-x-auto py-2 pr-4 no-scrollbar">
         {chatDetail.partner.interests.map((item, index) => (
-          <Hashtag key={index} item={item} />
+          <Hashtag_v2 key={index} item={item} />
         ))}
       </div>
 
