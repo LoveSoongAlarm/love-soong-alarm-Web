@@ -1,22 +1,24 @@
-import { PROFILE_MOCK } from "../../hooks/mocks";
 import { Button_v2 } from "../../common/Button";
 
 import { hashtag, ProfileLabel } from "../Common";
 import { useChatStore } from "../../store/chatStore";
+import type { ChatDetail } from "../../types/chat";
 
-export const ChatCard = () => {
+export const ChatCard = ({ chatDetail }: { chatDetail: ChatDetail }) => {
   const setIgnoreUser = useChatStore((state) => state.setIgnoreUser);
+
+  console.log(chatDetail.partner.interests);
 
   return (
     <div className="relative flex flex-col gap-y-1 bg-white px-4 py-2.5 w-full">
       <div className="flex flex-row justify-between items-center py-2.5">
-        <ProfileLabel name="jo" />
+        <ProfileLabel chatDetail={chatDetail} />
         <Button_v2 branch="ALERT" onClick={() => setIgnoreUser(true)} />
       </div>
 
       <div className="flex flex-row gap-x-1.5 overflow-x-scroll py-2">
-        {PROFILE_MOCK.map((item, index) => (
-          <div key={index}>{hashtag(item)}</div>
+        {chatDetail.partner.interests.map((item, index) => (
+          <div key={index}>{hashtag({ item: item })}</div>
         ))}
       </div>
 

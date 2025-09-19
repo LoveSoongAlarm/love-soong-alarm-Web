@@ -28,7 +28,7 @@ export const ExcessChat = () => {
   return (
     <div className="relative">
       <div className="flex flex-col">
-        <div className="flex flex-col py-4">
+        <div className="flex flex-col gap-y-2 py-4">
           <div className="text-xs text-assistive font-light">
             사용자 발신 10개 제한
           </div>

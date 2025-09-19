@@ -1,10 +1,6 @@
 import type { ReactNode, ButtonHTMLAttributes } from "react";
 import { useEffect, useRef } from "react";
-import {
-  useLoaderData,
-  useOutletContext,
-  useRevalidator,
-} from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 import Location from "@/assets/icons/ic_location.svg";
 import Chat from "@/assets/icons/ic_chat.svg";
@@ -23,7 +19,6 @@ import { LoginCard } from "../components/home/Card/LoginCard";
 import { useGeoLocation } from "../hooks/useGeoLocation";
 import { postLocation } from "../api/location";
 import { useStepLocationUpdate } from "../hooks/useLocationUpdate";
-import type { SocketActions } from "../components/Layout/SocketLayout";
 import { useChatStore } from "../store/chatStore";
 import { ReachMaxModal } from "../hooks/modal";
 
@@ -45,27 +40,28 @@ const Button = ({ children, ...props }: ButtonProps) => {
   );
 };
 
-const RenderCard = () => (
-  <>
-    <CardLayout branch="login">
-      <LoginCard />
-    </CardLayout>
-
-    <CardLayout branch="profile">
-      <ProfilePreview />
-    </CardLayout>
-
-    <CardLayout branch="chat">
-      <ChatPreview />
-    </CardLayout>
-  </>
-);
-
 export const Home = () => {
-  const revalidator = useRevalidator();
+  // const revalidator = useRevalidator();
 
   const { locationData, chatLists } = useLoaderData();
   const { location } = useGeoLocation();
+  console.log(locationData);
+
+  const RenderCard = () => (
+    <>
+      <CardLayout branch="login">
+        <LoginCard />
+      </CardLayout>
+
+      <CardLayout branch="profile">
+        <ProfilePreview />
+      </CardLayout>
+
+      <CardLayout branch="chat">
+        <ChatPreview items={chatLists.data} />
+      </CardLayout>
+    </>
+  );
 
   const isAuth = useAuthStore((state) => state.isAuth);
   const reachMax = useChatStore((state) => state.reachMax);
@@ -73,7 +69,6 @@ export const Home = () => {
   const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);
   const setCheckProfile = useHomeStore((state) => state.setCheckProfile);
   const setCheckChat = useHomeStore((state) => state.setCheckChat);
-  const setReachMax = useChatStore((state) => state.setReachMax);
 
   // // TODO: React-Query로 화면 전체 리랜더링 최소화 해야함
   // // 최신 좌표/마지막 전송 좌표 저장용 ref

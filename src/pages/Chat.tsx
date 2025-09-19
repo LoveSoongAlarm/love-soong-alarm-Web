@@ -22,6 +22,7 @@ const RenderCard = () => (
 
 export const Chat = () => {
   const { handleEnter, handleExit } = useOutletContext<SocketActions>();
+
   const { chatRoomId } = useParams<{ chatRoomId: string }>();
   const id = Number(chatRoomId);
   const prevIdRef = useRef<number | null>(null);
@@ -61,6 +62,7 @@ export const Chat = () => {
           <ChatContent key={index} item={item} />
         ))}
       </div>
+
       <RenderCard />
     </>
   );

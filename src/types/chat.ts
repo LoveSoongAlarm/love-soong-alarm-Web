@@ -3,10 +3,15 @@ export interface MakeChat {
 }
 
 export interface ChatRooms {
-  ChatRooms: ChatRoom[];
+  userSlotInfo: {
+    maxSlot: number;
+    remainingSlot: number;
+    isPrepass: boolean;
+  };
+  chatRooms: ChatRoom[];
 }
 
-interface ChatRoom {
+export interface ChatRoom {
   chatRoomId: number;
   emoji: string;
   partnerNickname: string;
@@ -38,7 +43,7 @@ interface Partner {
 
 interface Interests {
   label: string;
-  hastags: string[];
+  hashtags: string[];
 }
 
 interface RecentMessage {
