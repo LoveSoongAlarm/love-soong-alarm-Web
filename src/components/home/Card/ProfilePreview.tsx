@@ -16,7 +16,7 @@ export const ProfilePreview = () => {
       <div className="mb-3 flex items-start gap-3">
         <ProfileLabel />
       </div>
-      <div className="flex flex-row gap-x-1.5 py-2 overflow-x-auto">
+      <div className="flex gap-2 pb-2 overflow-x-auto">
         {selectedUser?.interests.map((item) => (
           <HashTagWrapper key={item.detailLabel} interest={item} />
         ))}

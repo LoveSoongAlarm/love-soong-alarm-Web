@@ -75,13 +75,19 @@ export const ProfileLabel = () => {
   const { selectedUser } = useSelectedUserStore();
 
   return (
-    <div className="flex flex-row gap-x-3 items-center">
+    <div className="flex gap-2 items-center py-2.5 w-full">
       <div>{selectedUser?.emoji}</div>
-      <div className="flex flex-col">
-        <div className="text-[18px]">{selectedUser?.name}</div>
-        <div className="text-[12px] text-[#331D24]/80">
+      <div className="flex flex-col flex-1 px-1">
+        <div className="text-lg">{selectedUser?.name}</div>
+        <div className="text-xs text-additive">
           {selectedUser?.age}세 | {selectedUser?.major}
         </div>
+      </div>
+
+      <div className="px-1.5 py-0.5 rounded-sm bg-success-regular">
+        <span className="text-success-strong text-xs font-medium leading-4.5 tracking-[-0.24px]">
+          10분 내 접속
+        </span>
       </div>
     </div>
   );
