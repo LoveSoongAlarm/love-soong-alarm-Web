@@ -1,6 +1,7 @@
 import { healthCheck } from "../api/api";
 import { getChatLists, getDetailChat } from "../api/chat";
 import { getLocation } from "../api/location";
+import { getNotifications } from "../api/notice";
 
 export const TestLoader = async () => {
   const testData = await healthCheck();
@@ -20,4 +21,10 @@ export const ChatLoader = async ({ params }: any) => {
   const chatDetail = await getDetailChat({ chatRoomId: chatRoomId });
 
   return { chatDetail };
+};
+
+export const AlarmLoader = async () => {
+  const alarmList = await getNotifications();
+
+  return { alarmList };
 };
