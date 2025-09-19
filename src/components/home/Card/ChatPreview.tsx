@@ -51,12 +51,6 @@ export const ChatPreview = ({ items }: { items: ChatRooms }) => {
         {items?.chatRooms?.map((item, index) => (
           <List key={index} item={item} />
         ))}
-        {items?.chatRooms?.map((item, index) => (
-          <List key={index} item={item} />
-        ))}
-        {items?.chatRooms?.map((item, index) => (
-          <List key={index} item={item} />
-        ))}
       </div>
     </div>
   );

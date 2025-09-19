@@ -39,26 +39,23 @@ export const CardHeader = ({
   );
 };
 
-export const hashtag = ({
+export const Hashtag = ({
   item,
 }: {
-  item: {
-    label: string;
-    hashtags: string[];
-  };
+  item: { label: string; hashtags: string[] };
 }) => {
   return (
-    <div className="flex flex-row gap-x-1">
-      <div className="text-main1 bg-main3 text-[12px] px-1.5 py-0.5 rounded-[4px]">
+    <div className="flex items-center gap-x-1.5 shrink-0">
+      <span className="inline-flex shrink-0 whitespace-nowrap text-main1 bg-main3 text-[12px] px-1.5 py-0.5 rounded-[4px]">
         #{item.label}
-      </div>
-      {item.hashtags.map((it, index) => (
-        <div
-          key={index}
-          className=" bg-[#AD929B]/8 text-[#331D24]/20 text-[12px] px-1.5 py-0.5 rounded-[4px]"
+      </span>
+      {item.hashtags.map((it, i) => (
+        <span
+          key={i}
+          className="inline-flex shrink-0 whitespace-nowrap bg-[#AD929B]/8 text-[#331D24]/60 text-[12px] px-1.5 py-0.5 rounded-[4px]"
         >
           #{it}
-        </div>
+        </span>
       ))}
     </div>
   );

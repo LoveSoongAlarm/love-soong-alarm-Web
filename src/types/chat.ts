@@ -46,7 +46,7 @@ interface Interests {
   hashtags: string[];
 }
 
-interface RecentMessage {
+export interface RecentMessage {
   messageId: number;
   content: string;
   createdAt: string;

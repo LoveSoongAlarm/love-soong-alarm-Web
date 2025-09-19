@@ -3,6 +3,11 @@ import { Outlet, useLoaderData, useOutletContext } from "react-router-dom";
 import { ChatCard } from "./Card";
 import { ChatInput } from "./Input";
 import type { SocketActions } from "../Layout/SocketLayout";
+import type { ChatDetail } from "../../types/chat";
+
+export interface Context extends SocketActions {
+  chatDetail: ChatDetail;
+}
 
 export const ChatLayout = () => {
   const { chatDetail } = useLoaderData();
@@ -10,9 +15,12 @@ export const ChatLayout = () => {
   const { handleEnter, handleExit, handleSend } =
     useOutletContext<SocketActions>();
 
-  const ctx: SocketActions = { handleEnter, handleExit, handleSend };
-
-  console.log(chatDetail);
+  const ctx: Context = {
+    handleEnter,
+    handleExit,
+    handleSend,
+    chatDetail: chatDetail.data,
+  };
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
