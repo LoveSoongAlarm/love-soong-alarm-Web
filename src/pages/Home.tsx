@@ -1,6 +1,10 @@
 import type { ReactNode, ButtonHTMLAttributes } from "react";
 import { useEffect, useRef } from "react";
-// import { useLoaderData, useRevalidator } from "react-router-dom";
+import {
+  useLoaderData,
+  useOutletContext,
+  useRevalidator,
+} from "react-router-dom";
 
 import Location from "@/assets/icons/ic_location.svg";
 import Chat from "@/assets/icons/ic_chat.svg";
@@ -19,6 +23,9 @@ import { LoginCard } from "../components/home/Card/LoginCard";
 import { useGeoLocation } from "../hooks/useGeoLocation";
 import { postLocation } from "../api/location";
 import { useStepLocationUpdate } from "../hooks/useLocationUpdate";
+import type { SocketActions } from "../components/Layout/SocketLayout";
+import { useChatStore } from "../store/chatStore";
+import { ReachMaxModal } from "../hooks/modal";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
@@ -55,16 +62,18 @@ const RenderCard = () => (
 );
 
 export const Home = () => {
-  // const revalidator = useRevalidator();
+  const revalidator = useRevalidator();
 
-  // const { locationData, chatLists } = useLoaderData();
+  const { locationData, chatLists } = useLoaderData();
   const { location } = useGeoLocation();
 
   const isAuth = useAuthStore((state) => state.isAuth);
+  const reachMax = useChatStore((state) => state.reachMax);
 
   const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);
   const setCheckProfile = useHomeStore((state) => state.setCheckProfile);
   const setCheckChat = useHomeStore((state) => state.setCheckChat);
+  const setReachMax = useChatStore((state) => state.setReachMax);
 
   // // TODO: React-Query로 화면 전체 리랜더링 최소화 해야함
   // // 최신 좌표/마지막 전송 좌표 저장용 ref
@@ -79,7 +88,7 @@ export const Home = () => {
   useStepLocationUpdate({
     enabled: isAuth,
     intervalMs: 3000,
-    thresholdMeters: 5,
+    thresholdMeters: 10,
     getCurrent: () => latestRef.current,
     post: ({ latitude, longitude }) => postLocation({ latitude, longitude }),
   });
@@ -130,6 +139,8 @@ export const Home = () => {
         </Button>
       </div>
       <RenderCard />
+
+      {reachMax && <ReachMaxModal />}
     </>
   );
 };

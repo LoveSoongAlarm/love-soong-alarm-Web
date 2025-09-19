@@ -1,3 +1,7 @@
+export interface MakeChat {
+  chatRoomId: number;
+}
+
 export interface ChatRooms {
   ChatRooms: ChatRoom[];
 }
@@ -29,10 +33,10 @@ interface Partner {
   emoji: string;
   age: number;
   major: string;
-  interests: Intersets[];
+  interests: Interests[];
 }
 
-interface Intersets {
+interface Interests {
   label: string;
   hastags: string[];
 }

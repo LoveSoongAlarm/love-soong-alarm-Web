@@ -16,8 +16,8 @@ export const HomeLoader = async () => {
 };
 
 export const ChatLoader = async ({ params }: any) => {
-  const { roomId } = params;
-  const chatDetail = await getDetailChat({ roomId: roomId });
+  const { chatRoomId } = params;
+  const chatDetail = await getDetailChat({ chatRoomId: chatRoomId });
 
   return { chatDetail };
 };

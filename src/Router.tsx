@@ -97,11 +97,11 @@ export const router = createBrowserRouter([
               {
                 path: "/chat",
                 element: <ChatLayout />,
+                loader: ChatLoader,
                 children: [
                   {
-                    path: ":roomId",
+                    path: ":chatRoomId",
                     element: <Chat />,
-                    loader: ChatLoader,
                   },
                 ],
               },

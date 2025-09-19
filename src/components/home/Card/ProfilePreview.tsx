@@ -4,10 +4,38 @@ import { PROFILE_MOCK } from "../../../hooks/mocks";
 import { CardHeader, hashtag, ProfileLabel } from "../../Common";
 import { useAuthStore } from "../../../store/authStore";
 
+import { useApi } from "../../../api/api";
+import type { MakeChat } from "../../../types/chat";
+import { toast } from "react-toastify";
+import { useChatStore } from "../../../store/chatStore";
+
 export const ProfilePreview = () => {
   const navigate = useNavigate();
+  const { postData } = useApi();
+
   const isAuth = useAuthStore((state) => state.isAuth);
   const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);
+  const setReachMax = useChatStore((state) => state.setReachMax);
+
+  const handleClick = async (userId: number) => {
+    if (!isAuth) {
+      setIsModalOpen({ flag: true, type: "chat" });
+      return;
+    }
+
+    const response = await postData<MakeChat>("/api/chats", {
+      targetUserId: userId,
+    });
+
+    if (response.message === "사용 가능한 채팅 슬롯이 존재하지 않습니다.") {
+      setReachMax(true);
+      return;
+    }
+
+    if (response.success) {
+      navigate(`/chat/${response.data.chatRoomId}`);
+    } else toast.warn(response.message);
+  };
 
   return (
     <div className="relative">
@@ -15,22 +43,13 @@ export const ProfilePreview = () => {
       <div className="mb-3 flex items-start gap-3">
         <ProfileLabel name="kim" />
       </div>
-      <div className="flex flex-row gap-x-1.5 py-2 overflow-x-scroll ">
+      <div className="flex flex-row gap-x-1.5 py-2 overflow-x-scroll">
         {PROFILE_MOCK.map((item, index) => (
           <div key={index}>{hashtag(item)}</div>
         ))}
       </div>
       <div className="flex py-2.5">
-        <Button
-          children="채팅하기"
-          onClick={() => {
-            if (!isAuth) {
-              setIsModalOpen({ flag: true, type: "chat" });
-              return;
-            }
-            navigate("/chat/1");
-          }}
-        />
+        <Button children="채팅하기" onClick={() => handleClick(4)} />
       </div>
     </div>
   );
