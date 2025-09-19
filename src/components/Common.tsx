@@ -1,8 +1,10 @@
-import { HOME_PROFILE_CONST } from "../hooks/consts";
 import { useAuthStore } from "../store/authStore";
 import { useHomeStore } from "../store/homeStore";
 
 import Close from "@/assets/icons/ic_close.svg";
+import { useSelectedUserStore } from "../store/useSelectedUserStore";
+import type { UserInterest } from "../types/User";
+import clsx from "clsx";
 
 export const CardHeader = ({
   branch,
@@ -39,34 +41,46 @@ export const CardHeader = ({
   );
 };
 
-export const hashtag = ({
+export const Hashtag = ({
   label,
-  isActive,
+  isHashTag,
 }: {
   label: string;
-  isActive: boolean;
+  isHashTag: boolean;
 }) => {
   return (
     <div
-      className={`${
-        isActive ? "text-main1 bg-main3" : "bg-[#AD929B]/8 text-[#331D24]/20"
-      } text-[12px] px-1.5 py-0.5 rounded-[4px]`}
+      className={clsx(
+        "text-xs font-medium leading-4.5 tracking-[-0.24px] px-1.5 py-1 rounded-sm",
+        isHashTag ? "text-additive bg-fill-strong" : "text-main1 bg-main3"
+      )}
     >
-      #{label}
+      {isHashTag ? "" : "#"}
+      {label}
     </div>
   );
 };
 
-export const ProfileLabel = ({ name }: { name: "jo" | "kim" }) => {
-  const USER = HOME_PROFILE_CONST[name];
+export const HashTagWrapper = ({ interest }: { interest: UserInterest }) => (
+  <div className="flex gap-2">
+    <Hashtag label={interest.detailLabel} isHashTag={false} />
+
+    {interest.hashTags.map((tag) => (
+      <Hashtag label={tag} isHashTag={true} />
+    ))}
+  </div>
+);
+
+export const ProfileLabel = () => {
+  const { selectedUser } = useSelectedUserStore();
 
   return (
     <div className="flex flex-row gap-x-3 items-center">
-      <div>{USER.emoji}</div>
+      <div>{selectedUser?.emoji}</div>
       <div className="flex flex-col">
-        <div className="text-[18px]">{USER.name}</div>
+        <div className="text-[18px]">{selectedUser?.name}</div>
         <div className="text-[12px] text-[#331D24]/80">
-          {USER.age}세 | {USER.dept} | {USER.height}cm
+          {selectedUser?.age}세 | {selectedUser?.major}
         </div>
       </div>
     </div>
