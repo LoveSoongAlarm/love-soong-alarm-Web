@@ -1,8 +1,12 @@
 import type { ReactNode, ButtonHTMLAttributes } from "react";
 import { useEffect, useRef } from "react";
+
 import Location from "@/assets/icons/ic_location.svg";
 import Chat from "@/assets/icons/ic_chat.svg";
+
+import { HomeBottom } from "../Bottom";
 import { ProfileCard } from "../Profile";
+
 import { useHomeStore } from "../../../store/homeStore";
 import { ProfilePreview } from "../Card/ProfilePreview";
 import { ChatPreview } from "../Card/ChatPreview";
@@ -10,10 +14,10 @@ import { CardLayout } from "../Card/Layout";
 import { useAuthStore } from "../../../store/authStore";
 import { MapCanvas } from "../Map";
 import { LoginCard } from "../Card/LoginCard";
+
 import { useGeoLocation } from "../../../hooks/useGeoLocation";
 import { postLocation } from "../../../api/location";
 import { useStepLocationUpdate } from "../../../hooks/useLocationUpdate";
-import { HomeBottom } from "../Bottom";
 import { useLoaderData } from "react-router-dom";
 import { OutOfBoundsNotice } from "../OutOfBoundsNotice";
 import { useChatStore } from "../../../store/chatStore";
