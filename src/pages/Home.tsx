@@ -1,6 +1,6 @@
 import type { ReactNode, ButtonHTMLAttributes } from "react";
 import { useEffect, useRef } from "react";
-import { useLoaderData, useRevalidator } from "react-router-dom";
+// import { useLoaderData, useRevalidator } from "react-router-dom";
 
 import Location from "@/assets/icons/ic_location.svg";
 import Chat from "@/assets/icons/ic_chat.svg";
@@ -24,7 +24,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
 }
 
-const MOVE_THRESHOLD_METERS = 5;
+// const MOVE_THRESHOLD_METERS = 5;
 
 // TEST DATA
 // const CORRECT_COUNT = 0;
@@ -55,7 +55,7 @@ const RenderCard = () => (
 );
 
 export const Home = () => {
-  const revalidator = useRevalidator();
+  // const revalidator = useRevalidator();
 
   // const { locationData, chatLists } = useLoaderData();
   const { location } = useGeoLocation();
