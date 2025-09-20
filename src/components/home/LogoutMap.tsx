@@ -36,6 +36,7 @@ export function LogoutMap() {
   const watchIdRef = useRef<number | null>(null);
   const [isPWA, setIsPWA] = useState(false);
   const isModalOpen = useAuthStore((state) => state.isModalOpen);
+  const { selectedUser } = useSelectedUserStore();
   const isOpen = isModalOpen;
   console.log(isOpen);
 
@@ -47,6 +48,51 @@ export function LogoutMap() {
       background:#fff; border-radius:9999px; border:2px solid #3b82f6;
       box-shadow:0 6px 18px rgba(0,0,0,.18); font-size:18px;">📍</div>
   `;
+
+  // 마커 렌더 함수
+  const renderUserMarkers = (kakao: typeof window.kakao, map: any) => {
+    userMarkerRef.current.forEach((marker) => marker.setMap(null));
+    userMarkerRef.current = [];
+
+    MockPeople.forEach((user) => {
+      const userLatLng = new kakao.maps.LatLng(user.latitude, user.longitude);
+
+      const isSelected = selectedUser?.id === user.id;
+
+      const htmlString = ReactDOMServer.renderToString(
+        <UserMarker user={user} isSelected={isSelected} />
+      );
+
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = htmlString;
+
+      const markerContent = wrapper.firstElementChild as HTMLElement;
+
+      const userMarker = new kakao.maps.CustomOverlay({
+        position: userLatLng,
+        content: markerContent,
+        yAnchor: 0.5,
+        xAnchor: 0.5,
+        map,
+      });
+
+      if (markerContent) {
+        markerContent.style.pointerEvents = "auto";
+        markerContent.style.cursor = "pointer";
+
+        markerContent.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const { setSelectedUser } = useSelectedUserStore.getState();
+          const { setCheckProfile } = useHomeStore.getState();
+
+          setSelectedUser(user);
+          setCheckProfile(true);
+        });
+      }
+
+      userMarkerRef.current.push(userMarker);
+    });
+  };
 
   useEffect(() => {
     // PWA 환경 감지
@@ -88,48 +134,7 @@ export function LogoutMap() {
           map,
         });
 
-        MockPeople.forEach((user) => {
-          const userLatLng = new kakao.maps.LatLng(
-            user.latitude,
-            user.longitude
-          );
-
-          const img = new Image();
-          img.src = Marker;
-          const htmlString = ReactDOMServer.renderToString(
-            <UserMarker emoji={user.emoji} status="online" />
-          );
-
-          const wrapper = document.createElement("div");
-          wrapper.innerHTML = htmlString;
-
-          console.log("first element:", wrapper.firstElementChild);
-
-          const markerContent = wrapper.firstElementChild as HTMLElement;
-
-          const userMarker = new kakao.maps.CustomOverlay({
-            position: userLatLng,
-            content: markerContent,
-            yAnchor: 0.5,
-            xAnchor: 0.5,
-            map,
-          });
-
-          if (markerContent) {
-            markerContent.style.pointerEvents = "auto";
-            markerContent.style.cursor = "pointer";
-
-            markerContent.addEventListener("click", () => {
-              const { setSelectedUser } = useSelectedUserStore.getState();
-              const { setCheckProfile } = useHomeStore.getState();
-
-              setSelectedUser(user);
-              setCheckProfile(true);
-            });
-          }
-          userMarkerRef.current.push(userMarker);
-        });
-
+        renderUserMarkers(kakao, map);
         markerRef.current = marker;
       });
     })();
@@ -151,9 +156,16 @@ export function LogoutMap() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!mapRef.current || !window.kakao?.maps) return;
+    userMarkerRef.current.forEach((marker) => marker.setMap(null));
+    userMarkerRef.current = [];
+    renderUserMarkers(window.kakao, mapRef.current);
+  }, [selectedUser]);
+
   return (
     <div
-      className="w-full h-full z-0 overflow-hidden"
+      className="w-full h-full overflow-hidden"
       style={{ height: isPWA && !isOpen ? "calc(100% + 34px)" : "100%" }}
     >
       <div

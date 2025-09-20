@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useHomeStore } from "../../../store/homeStore";
 import { useAuthStore } from "../../../store/authStore";
@@ -63,6 +63,8 @@ export const CardLayout = ({ branch, children }: BottomSheetProps) => {
   const setExcessChat = useChatStore((state) => state.setExcessChat);
   const setIgnoreUser = useChatStore((state) => state.setIgnoreUser);
 
+  const cardRef = useRef<HTMLDivElement>(null);
+
   const isOpen =
     branch === "login"
       ? login
@@ -99,18 +101,31 @@ export const CardLayout = ({ branch, children }: BottomSheetProps) => {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+        onClose(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div
+          {/* <motion.div
             className="absolute inset-0 z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => onClose(false)}
-          />
+          /> */}
           <motion.div
+            ref={cardRef}
             role="dialog"
             aria-modal
             className="absolute left-0 right-0 bottom-0 z-50"
