@@ -6,17 +6,28 @@ import type {
   ExcessChat,
   ListUpdate,
   MessageRead,
+  NewChatUpdate,
+  NotifiactionUpdate,
+  Notification,
+  ReadAllNotification,
+  ReadNotification,
+  SubscribeList,
   SuccessSubscribe,
   SuccesUnsubscribe,
   UnreadBadgeUpdate,
+  UnsubscribeList,
 } from "../types/socket";
 import { useChatStore } from "../store/chatStore";
 import type { RecentMessage } from "../types/chat";
 import { useMessageStore } from "../store/messageStore";
+import { useHomeStore } from "../store/homeStore";
 
 export const useWebSocket = () => {
   const setExcessChat = useChatStore((state) => state.setExcessChat);
-  const setNewMessage = useMessageStore((s) => s.setNewMessage);
+  const setNewMessage = useMessageStore((state) => state.setNewMessage);
+  const setIsNoticeAlarm = useHomeStore((state) => state.setIsNoticeAlarm);
+  const setIsChatAlarm = useHomeStore((state) => state.setIsChatAlarm);
+  const setNewChats = useMessageStore((state) => state.setNewChats);
 
   const handleConnectionSuccess = (data: ConnectionSuccess) => {
     toast.success("채팅이 연결되었습니다.");
@@ -25,6 +36,9 @@ export const useWebSocket = () => {
 
   const handleUnreadBadgeUpdate = (data: UnreadBadgeUpdate) => {
     console.log("📩 UNREAD_BADGE_UPDATE:", data);
+
+    if (data.totalUnreadCount) setIsChatAlarm(true);
+    else setIsChatAlarm(false);
   };
 
   const handleMessageRead = (data: MessageRead) => {
@@ -60,6 +74,39 @@ export const useWebSocket = () => {
 
   const handleChatListUpdate = (data: ListUpdate) => {
     console.log("📜 CHAT_LIST_UPDATE:", data);
+
+    setNewChats({ newChat: data });
+  };
+
+  const handleSubscribeList = (data: SubscribeList) => {
+    console.log("SubscribeList: ", data);
+  };
+
+  const handleUnsubscribeList = (data: UnsubscribeList) => {
+    console.log("UnsubscribeList: ", data);
+  };
+
+  const handleNewUserChat = (data: NewChatUpdate) => {
+    console.log("New Chatrooms Create: ", data);
+  };
+
+  const handleNotification = (data: Notification) => {
+    console.log("Notification: ", data);
+  };
+
+  const handleNotifiactionAlarm = (data: NotifiactionUpdate) => {
+    console.log("Notiication Update: ", data);
+
+    if (data.hasUnread) setIsNoticeAlarm(true);
+    else setIsNoticeAlarm(false);
+  };
+
+  const handleReadAllNotificatino = (data: ReadAllNotification) => {
+    console.log("Read All Notification: ", data);
+  };
+
+  const handleReadNotification = (data: ReadNotification) => {
+    console.log("Read Notification: ", data);
   };
 
   const handleError = (data: ErrorType) => {
@@ -75,6 +122,13 @@ export const useWebSocket = () => {
     handleChatMessage,
     handleExcessChat,
     handleChatListUpdate,
+    handleSubscribeList,
+    handleUnsubscribeList,
+    handleNewUserChat,
+    handleNotification,
+    handleNotifiactionAlarm,
+    handleReadAllNotificatino,
+    handleReadNotification,
     handleError,
   };
 };

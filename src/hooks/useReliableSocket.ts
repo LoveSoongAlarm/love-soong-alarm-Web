@@ -47,6 +47,7 @@ export function useReliableSocket(
     return () => {
       wsRef.current?.close();
       wsRef.current = null;
+      connect();
     };
   }, [connect]);
 

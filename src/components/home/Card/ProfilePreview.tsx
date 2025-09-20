@@ -18,7 +18,6 @@ export const ProfilePreview = () => {
   const [loginModal, setLoginModal] = useState(false);
 
   const isAuth = useAuthStore((state) => state.isAuth);
-  // const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);
   const setReachMax = useChatStore((state) => state.setReachMax);
 
   const handleClick = async (userId?: number) => {
@@ -55,7 +54,7 @@ export const ProfilePreview = () => {
           ))}
         </div>
         <div className="flex py-2.5">
-          <Button children="채팅하기" onClick={() => handleClick(2)} />
+          <Button children="채팅하기" onClick={() => handleClick(4)} />
         </div>
       </div>
     </>
