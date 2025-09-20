@@ -29,10 +29,10 @@ const loadKakaoMap = () =>
   });
 
 interface Props {
-  nearbyUser?: User[];
+  users: User[];
 }
 
-export function MapCanvas({ nearbyUser }: Props) {
+export function MapCanvas({ users }: Props) {
   const mapRef = useRef<any>(null);
   const markerRef = useRef<any>(null);
   const userMarkerRef = useRef<any[]>([]);
@@ -41,6 +41,7 @@ export function MapCanvas({ nearbyUser }: Props) {
   const isModalOpen = useAuthStore((state) => state.isModalOpen);
   const { selectedUser } = useSelectedUserStore();
   const isOpen = isModalOpen;
+  console.log(users);
 
   // 커스텀 마커 HTML
   const markerHtml = `
@@ -56,10 +57,11 @@ export function MapCanvas({ nearbyUser }: Props) {
     userMarkerRef.current.forEach((marker) => marker.setMap(null));
     userMarkerRef.current = [];
 
-    nearbyUser?.forEach((user) => {
+    users?.forEach((user) => {
       const userLatLng = new kakao.maps.LatLng(user.latitude, user.longitude);
 
-      const isSelected = selectedUser?.id === user.id;
+      const isSelected = selectedUser?.userId === user.userId;
+      console.log(user);
 
       const htmlString = ReactDOMServer.renderToString(
         <UserMarker user={user} isSelected={isSelected} />
@@ -112,7 +114,6 @@ export function MapCanvas({ nearbyUser }: Props) {
         document.referrer.includes("android-app://")
       );
     };
-
     setIsPWA(checkPWA());
   }, []);
 
@@ -131,6 +132,11 @@ export function MapCanvas({ nearbyUser }: Props) {
         });
         mapRef.current = map;
 
+        kakao.maps.event.addListener(map, "click", () => {
+          const { setSelectedUser } = useSelectedUserStore.getState();
+          setSelectedUser(null);
+        });
+
         // 현재 위치 마커(커스텀 오버레이)
         const initialPos = new kakao.maps.LatLng(
           SSU_LOCATION.lat,
@@ -143,9 +149,9 @@ export function MapCanvas({ nearbyUser }: Props) {
           xAnchor: 0.5,
           map,
         });
-        markerRef.current = marker;
-
         renderUserMarkers(kakao, map);
+
+        markerRef.current = marker;
 
         // 위치 갱신 함수
         const updatePosition = (lat: number, lng: number) => {
@@ -198,6 +204,10 @@ export function MapCanvas({ nearbyUser }: Props) {
       }
       if (markerRef.current) markerRef.current.setMap(null);
       if (mapRef.current) mapRef.current = null;
+      if (userMarkerRef.current) {
+        userMarkerRef.current.forEach((m) => m.setMap(null));
+        userMarkerRef.current = [];
+      }
     };
   }, []);
 

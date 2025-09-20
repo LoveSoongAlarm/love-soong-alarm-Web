@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useHomeStore } from "../../../store/homeStore";
 import { useAuthStore } from "../../../store/authStore";
 import { useChatStore } from "../../../store/chatStore";
+import { useSelectedUserStore } from "../../../store/useSelectedUserStore";
 
 type BottomSheetProps = {
   branch:
@@ -62,6 +63,7 @@ export const CardLayout = ({ branch, children }: BottomSheetProps) => {
   const setMemberout = useAuthStore((state) => state.setIsMemberOutOpen);
   const setExcessChat = useChatStore((state) => state.setExcessChat);
   const setIgnoreUser = useChatStore((state) => state.setIgnoreUser);
+  const { setSelectedUser } = useSelectedUserStore();
 
   const cardRef = useRef<HTMLDivElement>(null);
 

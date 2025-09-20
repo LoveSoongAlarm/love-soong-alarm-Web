@@ -128,6 +128,11 @@ export function LogoutMap() {
         });
         mapRef.current = map;
 
+        kakao.maps.event.addListener(map, "click", () => {
+          const { setSelectedUser } = useSelectedUserStore.getState();
+          setSelectedUser(null);
+        });
+
         const initialPos = new kakao.maps.LatLng(
           SSU_LOCATION.lat,
           SSU_LOCATION.lng

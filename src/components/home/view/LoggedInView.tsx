@@ -31,7 +31,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 // TEST DATA
 // const CORRECT_COUNT = 0;
-const CORRECT_COUNT = 1;
 
 const Button = ({ children, ...props }: ButtonProps) => {
   return (
@@ -100,7 +99,7 @@ export const LoggedInView = () => {
       </div>
 
       {locationData ? (
-        <MapCanvas nearbyUser={locationData.data.nearbyUserInformation} />
+        <MapCanvas users={locationData.data.nearbyUsersInformation} />
       ) : (
         <OutOfBoundsNotice />
       )}

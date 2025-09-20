@@ -13,6 +13,7 @@ export const UserMarker = ({ user, isSelected }: Props) => {
     : user.isMatching
     ? MatchMarker
     : Marker;
+
   return (
     <div className="user-marker relative flex flex-col items-center justify-center z-80 w-12 cursor-pointer">
       <img src={MarkerIcon} alt="marker_icon" className="w-12 h-15" />
