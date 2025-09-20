@@ -5,7 +5,6 @@ import { UserMarker } from "./UserMarker";
 import ReactDOMServer from "react-dom/server";
 import { useSelectedUserStore } from "../../store/useSelectedUserStore";
 import { useHomeStore } from "../../store/homeStore";
-import Marker from "@/assets/icons/Vector.svg?url";
 
 declare global {
   interface Window {

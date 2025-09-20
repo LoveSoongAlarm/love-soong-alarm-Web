@@ -46,7 +46,7 @@ export const LoggedInView = () => {
 
   const { locationData, chatLists } = useLoaderData();
   const { location } = useGeoLocation();
-  console.log(locationData.data.nearbyUserInformation);
+  console.log(locationData.data);
 
   const RenderCard = () => (
     <>
@@ -116,7 +116,7 @@ export const LoggedInView = () => {
         </Button>
 
         <HomeBottom
-          count={CORRECT_COUNT}
+          count={locationData.data.matchCount}
           onClick={() => {
             if (!isAuth) {
               setIsModalOpen({ flag: true, type: "edit" });
