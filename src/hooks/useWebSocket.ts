@@ -6,7 +6,6 @@ import type {
   ExcessChat,
   ListUpdate,
   MessageRead,
-  NewChatUpdate,
   NotifiactionUpdate,
   Notification,
   ReadAllNotification,
@@ -43,6 +42,7 @@ export const useWebSocket = () => {
 
   const handleMessageRead = (data: MessageRead) => {
     console.log("📩 MESSAGE_READ:", data);
+    window.dispatchEvent(new CustomEvent("revalidate:chat"));
   };
 
   const handleSubscribe = (data: SuccessSubscribe) => {
@@ -86,8 +86,9 @@ export const useWebSocket = () => {
     console.log("UnsubscribeList: ", data);
   };
 
-  const handleNewUserChat = (data: NewChatUpdate) => {
-    console.log("New Chatrooms Create: ", data);
+  const handleNewUserChat = () => {
+    window.dispatchEvent(new CustomEvent("revalidate:home"));
+    return;
   };
 
   const handleNotification = (data: Notification) => {

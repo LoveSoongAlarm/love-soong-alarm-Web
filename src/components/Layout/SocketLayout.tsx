@@ -76,7 +76,7 @@ export const SocketLayout = () => {
         case "CHAT_LIST_UNSUBSCRIBE":
           return handleUnsubscribeList(data);
         case "NEW_CHAT_ROOM_CREATED":
-          return handleNewUserChat(data);
+          return handleNewUserChat();
         case "NOTIFICATION":
           return handleNotification(data);
         case "UNREAD_NOTIFICATION_BADGE_UPDATE":

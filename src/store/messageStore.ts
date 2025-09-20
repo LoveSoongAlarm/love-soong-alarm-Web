@@ -9,6 +9,7 @@ type MessageStore = {
 
   setNewMessage: (args: { item: RecentMessage }) => void;
   setInitLists: ({ chatRooms }: { chatRooms: ChatRoom[] }) => void;
+  setReadMessage: () => void;
   setNewChats: ({ newChat }: { newChat: ListUpdate }) => void;
   setNewUsers: ({ newUser }: { newUser: NewChatUpdate }) => void;
 };
@@ -21,6 +22,21 @@ export const useMessageStore = create<MessageStore>()((set) => ({
     set((s) => ({ newMessage: [...s.newMessage, item] })),
 
   setInitLists: ({ chatRooms }) => set({ newChats: chatRooms }),
+
+  setReadMessage: () =>
+    set((s) => {
+      const updatedChats = [...s.newChats];
+      for (let i = updatedChats.length - 1; i >= 0; i--) {
+        updatedChats[i] = {
+          ...updatedChats[i],
+          lastMessageInfo: {
+            ...updatedChats[i].lastMessageInfo,
+            isRead: true,
+          },
+        };
+      }
+      return { newChats: updatedChats };
+    }),
 
   setNewChats: ({ newChat }: { newChat: ListUpdate }) =>
     set((s) => {

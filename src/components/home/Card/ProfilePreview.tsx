@@ -54,7 +54,7 @@ export const ProfilePreview = () => {
           ))}
         </div>
         <div className="flex py-2.5">
-          <Button children="채팅하기" onClick={() => handleClick(4)} />
+          <Button children="채팅하기" onClick={() => handleClick(2)} />
         </div>
       </div>
     </>
