@@ -80,13 +80,20 @@ export function LogoutMap() {
         markerContent.style.pointerEvents = "auto";
         markerContent.style.cursor = "pointer";
 
-        markerContent.addEventListener("click", (e) => {
-          e.stopPropagation();
+        markerContent.addEventListener("click", () => {
           const { setSelectedUser } = useSelectedUserStore.getState();
           const { setCheckProfile } = useHomeStore.getState();
 
           setSelectedUser(user);
           setCheckProfile(true);
+
+          if (mapRef.current) {
+            const latlng = new window.kakao.maps.LatLng(
+              user.latitude,
+              user.longitude
+            );
+            mapRef.current.panTo(latlng);
+          }
         });
       }
 
