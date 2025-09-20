@@ -46,7 +46,7 @@ export const LoggedInView = () => {
 
   const { locationData, chatLists } = useLoaderData();
   const { location } = useGeoLocation();
-  console.log(location);
+  console.log(locationData.data.nearbyUserInformation);
 
   const RenderCard = () => (
     <>
@@ -99,7 +99,11 @@ export const LoggedInView = () => {
         <ProfileCard />
       </div>
 
-      {locationData ? <MapCanvas /> : <OutOfBoundsNotice />}
+      {locationData ? (
+        <MapCanvas nearbyUser={locationData.data.nearbyUserInformation} />
+      ) : (
+        <OutOfBoundsNotice />
+      )}
       <div
         className={`${
           isAuth ? "top-57" : "top-62"

@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuthStore } from "../../store/authStore";
+import type { User } from "../../types/User";
+import { useSelectedUserStore } from "../../store/useSelectedUserStore";
+import { useHomeStore } from "../../store/homeStore";
+import { UserMarker } from "./UserMarker";
+import ReactDOMServer from "react-dom/server";
 
 declare global {
   interface Window {
@@ -23,9 +28,14 @@ const loadKakaoMap = () =>
     document.head.appendChild(s);
   });
 
-export function MapCanvas() {
+interface Props {
+  nearbyUser?: User[];
+}
+
+export function MapCanvas({ nearbyUser }: Props) {
   const mapRef = useRef<any>(null);
   const markerRef = useRef<any>(null);
+  const userMarkerRef = useRef<any[]>([]);
   const watchIdRef = useRef<number | null>(null);
   const [isPWA, setIsPWA] = useState(false);
   const isModalOpen = useAuthStore((state) => state.isModalOpen);
@@ -82,6 +92,44 @@ export function MapCanvas() {
         });
         markerRef.current = marker;
 
+        nearbyUser?.forEach((user) => {
+          const userLatLng = new kakao.maps.LatLng(
+            user.latitude,
+            user.longitude
+          );
+
+          const htmlString = ReactDOMServer.renderToString(
+            <UserMarker emoji={user.emoji} status="online" />
+          );
+
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlString;
+
+          const userMarker = new kakao.maps.CustomOverlay({
+            position: userLatLng,
+            content: wrapper,
+            yAnchor: 0.5,
+            xAnchor: 0.5,
+            map,
+          });
+
+          const markerEl = wrapper.firstChild as HTMLElement;
+
+          if (markerEl) {
+            markerEl.style.pointerEvents = "auto";
+            markerEl.style.cursor = "pointer";
+
+            markerEl.addEventListener("click", () => {
+              const { setSelectedUser } = useSelectedUserStore.getState();
+              const { setCheckProfile } = useHomeStore.getState();
+
+              setSelectedUser(user);
+              setCheckProfile(true);
+            });
+          }
+          userMarkerRef.current.push(userMarker);
+        });
+
         // 위치 갱신 함수
         const updatePosition = (lat: number, lng: number) => {
           const pos = new kakao.maps.LatLng(lat, lng);
@@ -127,7 +175,9 @@ export function MapCanvas() {
       if (watchIdRef.current !== null) {
         try {
           navigator.geolocation.clearWatch(watchIdRef.current);
-        } catch {}
+        } catch (err) {
+          console.error(err);
+        }
       }
       if (markerRef.current) markerRef.current.setMap(null);
       if (mapRef.current) mapRef.current = null;

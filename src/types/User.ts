@@ -4,6 +4,7 @@ export interface UserInterest {
 }
 
 export interface User {
+  id?: number;
   name: string;
   age: number;
   major: string;

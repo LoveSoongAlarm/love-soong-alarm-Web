@@ -5,6 +5,7 @@ import { UserMarker } from "./UserMarker";
 import ReactDOMServer from "react-dom/server";
 import { useSelectedUserStore } from "../../store/useSelectedUserStore";
 import { useHomeStore } from "../../store/homeStore";
+import Marker from "@/assets/icons/Vector.svg?url";
 
 declare global {
   interface Window {
@@ -93,6 +94,8 @@ export function LogoutMap() {
             user.longitude
           );
 
+          const img = new Image();
+          img.src = Marker;
           const htmlString = ReactDOMServer.renderToString(
             <UserMarker emoji={user.emoji} status="online" />
           );
@@ -100,21 +103,23 @@ export function LogoutMap() {
           const wrapper = document.createElement("div");
           wrapper.innerHTML = htmlString;
 
+          console.log("first element:", wrapper.firstElementChild);
+
+          const markerContent = wrapper.firstElementChild as HTMLElement;
+
           const userMarker = new kakao.maps.CustomOverlay({
             position: userLatLng,
-            content: wrapper,
+            content: markerContent,
             yAnchor: 0.5,
             xAnchor: 0.5,
             map,
           });
 
-          const markerEl = wrapper.firstChild as HTMLElement;
+          if (markerContent) {
+            markerContent.style.pointerEvents = "auto";
+            markerContent.style.cursor = "pointer";
 
-          if (markerEl) {
-            markerEl.style.pointerEvents = "auto"; // 가장 중요
-            markerEl.style.cursor = "pointer";
-
-            markerEl.addEventListener("click", () => {
+            markerContent.addEventListener("click", () => {
               const { setSelectedUser } = useSelectedUserStore.getState();
               const { setCheckProfile } = useHomeStore.getState();
 
@@ -148,12 +153,12 @@ export function LogoutMap() {
 
   return (
     <div
-      className="w-full z-0 overflow-hidden"
+      className="w-full h-full z-0 overflow-hidden"
       style={{ height: isPWA && !isOpen ? "calc(100% + 34px)" : "100%" }}
     >
       <div
         id="map"
-        className="w-full h-full transform-gpu [filter:grayscale(30%)_saturate(90%)_brightness(105%)]"
+        className="inset-0 w-full h-full transform-gpu"
         style={{
           transformOrigin: "center center",
           height: isPWA && !isOpen ? "calc(100% + 34px)" : "100%",
