@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../common/Button";
 import { CardHeader, HashTagWrapper, Profile } from "../../Common";
-import { useAuthStore } from "../../../store/authStore";
 import { useSelectedUserStore } from "../../../store/useSelectedUserStore";
 
 import { useApi } from "../../../api/api";
@@ -17,7 +16,7 @@ export const ProfilePreview = () => {
   const { selectedUser } = useSelectedUserStore();
   const [loginModal, setLoginModal] = useState(false);
 
-  const isAuth = useAuthStore((state) => state.isAuth);
+  const isAuth = localStorage.getItem("accessToken");
   const setReachMax = useChatStore((state) => state.setReachMax);
 
   const handleClick = async (userId?: number) => {
