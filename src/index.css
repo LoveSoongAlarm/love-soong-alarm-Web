@@ -75,6 +75,7 @@
 
 html,
 body {
+  @apply scrollbar-none
   height: 100%;
   overflow: hidden;
 }
