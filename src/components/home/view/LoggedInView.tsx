@@ -113,12 +113,12 @@ export const LoggedInView = ({
           userCount={locationData?.data?.nearbyUsersInformation?.length ?? 0}
         />
       </div>
-
       {locationData ? (
         <MapCanvas users={locationData?.data?.nearbyUsersInformation} />
       ) : (
         <OutOfBoundsNotice />
       )}
+
       <div
         className={`${
           isAuth ? "top-57" : "top-62"
