@@ -12,6 +12,8 @@ import {
 } from "../api/notice";
 import { toast } from "react-toastify";
 import type { Notice } from "../types/notice";
+import { useSelectedUserStore } from "../store/useSelectedUserStore";
+import { getUserProfile } from "../api/auth";
 
 const CheckLabel = (type: "before" | "after") => {
   if (type === "before")
@@ -58,17 +60,34 @@ const Title = ({ type }: { type: "before" | "after" }) => {
 const List = ({ item, type }: { item: Notice; type: "before" | "after" }) => {
   const revalidator = useRevalidator();
   const navigate = useNavigate();
-  const setCheckProfile = useHomeStore((state) => state.setCheckProfile);
 
-  const handleClick = async ({ id }: { id: number }) => {
+  const setCheckProfile = useHomeStore((state) => state.setCheckProfile);
+  const setSelectedUser = useSelectedUserStore(
+    (state) => state.setSelectedUser
+  );
+
+  const handleClick = async ({
+    id,
+    userId,
+  }: {
+    id: number;
+    userId: number;
+  }) => {
     if (type === "before") {
       const response = await readIndivAlarm({ notificationId: id });
+      const res = await getUserProfile({ userId: userId });
 
-      if (response!.success) {
+      if (response!.success && res!.success) {
         navigate("/");
+        setSelectedUser(res?.data!);
+
         setCheckProfile(true);
       }
     } else {
+      const res = await getUserProfile({ userId: userId });
+
+      setSelectedUser(res?.data!);
+
       navigate("/");
       setCheckProfile(true);
     }
@@ -86,7 +105,12 @@ const List = ({ item, type }: { item: Notice; type: "before" | "after" }) => {
   return (
     <div
       className="w-full py-2.5 flex flex-row justify-between items-center cursor-pointer"
-      onClick={() => handleClick({ id: Number(item.id) })}
+      onClick={() =>
+        handleClick({
+          id: Number(item.id),
+          userId: Number(item.matchingUserId),
+        })
+      }
     >
       <div className="flex flex-col">
         <div className="text-[16px]">새로운 이성이 왔어요!</div>
