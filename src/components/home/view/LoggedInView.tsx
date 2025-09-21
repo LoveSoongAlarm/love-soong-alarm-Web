@@ -23,6 +23,9 @@ import { useStepLocationUpdate } from "../../../hooks/useLocationUpdate";
 import { OutOfBoundsNotice } from "../OutOfBoundsNotice";
 import { useChatStore } from "../../../store/chatStore";
 import { ReachMaxModal } from "../../../hooks/modal";
+import { useQuery } from "@tanstack/react-query";
+import { useApi } from "../../../api/api";
+import type { UserProfile } from "../../../types/User";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
@@ -50,6 +53,8 @@ export const LoggedInView = ({
 }) => {
   const revalidator = useRevalidator();
 
+  const mapRef = useRef<{ moveToCurrentLocation: () => void }>(null);
+
   const { locationData } = useLoaderData();
   const { location } = useGeoLocation();
 
@@ -60,6 +65,10 @@ export const LoggedInView = ({
   const setIsModalOpen = useAuthStore((state) => state.setIsModalOpen);
   const setCheckProfile = useHomeStore((state) => state.setCheckProfile);
   const setCheckChat = useHomeStore((state) => state.setCheckChat);
+
+  const handleMoveToCurrentLocation = () => {
+    mapRef.current?.moveToCurrentLocation();
+  };
 
   const RenderCard = () => (
     <>
@@ -100,11 +109,20 @@ export const LoggedInView = ({
 
   useStepLocationUpdate({
     enabled: isAuth,
-    intervalMs: 5000,
+    intervalMs: 100000000,
     thresholdMeters: 0,
     getCurrent: () => latestRef.current,
     post: ({ latitude, longitude }) => postLocation({ latitude, longitude }),
   });
+
+  const { getData } = useApi();
+
+  const { data: myProfile } = useQuery({
+    queryKey: ["user-profile"],
+    queryFn: () => getData<UserProfile>("/api/users/me"),
+  });
+
+  console.log(myProfile);
 
   return (
     <>
@@ -115,18 +133,23 @@ export const LoggedInView = ({
       </div>
 
       {locationData ? (
-        <MapCanvas users={locationData?.data?.nearbyUsersInformation} />
+        <MapCanvas
+          users={locationData?.data?.nearbyUsersInformation}
+          ref={mapRef}
+          myProfile={myProfile?.data}
+        />
       ) : (
         <OutOfBoundsNotice />
       )}
+
       <div
         className={`${
           isAuth ? "top-57" : "top-62"
         } absolute flex flex-row gap-x-2 left-4 right-4 z-30 justify-between`}
       />
 
-      <div className="absolute flex flex-row gap-x-2 left-4 right-4 bottom-10.5 z-30 items-center">
-        <Button>
+      <div className="absolute flex flex-row gap-x-2 left-4 right-4 bottom-2 z-30 items-center">
+        <Button onClick={handleMoveToCurrentLocation}>
           <img src={Location} alt={"location"} />
         </Button>
 

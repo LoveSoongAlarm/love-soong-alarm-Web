@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../common/Button";
 import { CardHeader, HashTagWrapper, Profile } from "../../Common";
-import { useAuthStore } from "../../../store/authStore";
 import { useSelectedUserStore } from "../../../store/useSelectedUserStore";
 
 import { useApi } from "../../../api/api";
@@ -14,15 +13,20 @@ import { LoginModal } from "../LoginModal";
 export const ProfilePreview = () => {
   const navigate = useNavigate();
   const { postData } = useApi();
-  const { selectedUser } = useSelectedUserStore();
+  const { selectedUser, selectedMy } = useSelectedUserStore();
   const [loginModal, setLoginModal] = useState(false);
 
-  const isAuth = useAuthStore((state) => state.isAuth);
+  const isAuth = localStorage.getItem("accessToken");
   const setReachMax = useChatStore((state) => state.setReachMax);
 
   const handleClick = async (userId?: number) => {
     if (!isAuth) {
       setLoginModal(true);
+      return;
+    }
+
+    if (selectedMy) {
+      navigate("/edit");
       return;
     }
 
@@ -42,19 +46,28 @@ export const ProfilePreview = () => {
 
   return (
     <>
-      {loginModal && <LoginModal />}
+      {loginModal && (
+        <LoginModal type="chat" handleClose={() => setLoginModal(false)} />
+      )}
       <div className="relative">
         <CardHeader branch="profile" title="프로필 보기" />
         <div className="mb-3 flex items-start gap-3">
           <Profile />
         </div>
         <div className="flex gap-2 pb-2 overflow-x-auto scrollbar-none">
-          {selectedUser?.interests.map((item) => (
-            <HashTagWrapper key={item.detailLabel} interest={item} />
-          ))}
+          {selectedUser
+            ? selectedUser?.interests.map((item) => (
+                <HashTagWrapper key={item.detailLabel} interest={item} />
+              ))
+            : selectedMy?.interests.map((item) => (
+                <HashTagWrapper key={item.detailLabel} interest={item} />
+              ))}
         </div>
         <div className="flex py-2.5">
-          <Button children="채팅하기" onClick={() => handleClick(2)} />
+          <Button
+            children={selectedUser ? "채팅하기" : "수정하기"}
+            onClick={() => handleClick(2)}
+          />
         </div>
       </div>
     </>
