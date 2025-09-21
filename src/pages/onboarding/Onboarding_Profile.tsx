@@ -72,7 +72,15 @@ export const Onboarding_Profile = () => {
             label="닉네임"
             placeholder="예시) 김숭실"
             value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value.length <= 10) {
+                setNickname(value);
+              } else {
+                setNickname(value.slice(0, 10));
+              }
+            }}
+            maxLength={10}
           />
 
           <div className="flex flex-col gap-3">
