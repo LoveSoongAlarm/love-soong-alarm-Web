@@ -41,7 +41,9 @@ export const ProfilePreview = () => {
 
   return (
     <>
-      {loginModal && <LoginModal type="chat" />}
+      {loginModal && (
+        <LoginModal type="chat" handleClose={() => setLoginModal(false)} />
+      )}
       <div className="relative">
         <CardHeader branch="profile" title="프로필 보기" />
         <div className="mb-3 flex items-start gap-3">

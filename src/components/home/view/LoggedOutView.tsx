@@ -28,13 +28,16 @@ export const LoggedOutView = () => {
   const [isLogin, setLogin] = useState(false);
   return (
     <>
-      {isLogin && <LoginModal type="button" />}
+      {isLogin && (
+        <LoginModal type="button" handleClose={() => setLogin(false)} />
+      )}
       <div className="w-full h-full flex flex-col z-10">
         <div className="w-full px-4 pt-4 pb-6 flex justify-between items-center h-15">
           <img src={Logo} alt={"Logo"} className="size-12" />
           <img
             src={LoginIcon}
             alt="login_icon"
+            className="cursor-pointer"
             onClick={() => setLogin(true)}
           />
         </div>

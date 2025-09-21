@@ -3,12 +3,16 @@ import Kakao from "@/assets/icons/Kakao.svg?url";
 
 interface Props {
   type: "chat" | "button";
+  handleClose: () => void;
 }
 
-export const LoginModal = ({ type }: Props) => {
+export const LoginModal = ({ type, handleClose }: Props) => {
   return (
-    <BlurBackground>
-      <div className="w-full bg-fill-static rounded-2xl py-0.5">
+    <BlurBackground onClick={handleClose}>
+      <div
+        className="w-full bg-fill-static rounded-2xl py-0.5"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="w-full flex flex-col py-4 pl-5 pr-7 gap-0.5">
           <span className="text-assistive text-xs font-normal leading-4.5 tracking-[-0.24px]">
             로그인
