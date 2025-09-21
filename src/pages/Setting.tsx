@@ -78,12 +78,17 @@ export const Setting = () => {
           <div className="w-full h-1 bg-divider-regular my-2.5" />
 
           <List
-            onClick={() => navigate("/")}
+            onClick={() =>
+              (window.location.href = "http://pf.kakao.com/_xbxakDn/chat")
+            }
             img={Kakao}
             title="카카오톡 문의"
           />
           <List
-            onClick={() => navigate("/")}
+            onClick={() =>
+              (window.location.href =
+                "https://www.instagram.com/love_sonng_alarm?igsh=MXhreHFzcDQzZDUzbw%3D%3D&utm_source=qr")
+            }
             img={Insta}
             title="인스타그램 문의"
           />
