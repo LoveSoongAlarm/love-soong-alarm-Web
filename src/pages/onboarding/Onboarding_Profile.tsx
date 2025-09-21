@@ -32,10 +32,14 @@ export const Onboarding_Profile = () => {
     emoji && nickname && gender && major && birthDate && birthDate.length === 4;
 
   const onChangeEmoji = (e: ChangeEvent<HTMLInputElement>) => {
-    const splitter = new GraphemeSplitter();
-    const input = e.target.value;
-    const firstEmoji = splitter.splitGraphemes(input)[0] || "";
-    setEmoji(firstEmoji);
+    const value = e.target.value;
+
+    const emojiOnly = value.replace(
+      /[^\p{Emoji}\p{Extended_Pictographic}]/gu,
+      ""
+    );
+
+    setEmoji(emojiOnly);
   };
 
   return (
