@@ -10,7 +10,7 @@ export interface User {
   major: string;
   emoji: string;
   interests: UserInterest[];
-  lastSeen: string;
+  lastSeen: "10분 내 접속" | "30분 내 접속" | null;
   isMatching: boolean;
   latitude: number;
   longitude: number;

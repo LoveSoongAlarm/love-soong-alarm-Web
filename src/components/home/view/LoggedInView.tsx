@@ -51,7 +51,6 @@ export const LoggedInView = ({
 }) => {
   const { locationData, chatLists } = useLoaderData();
   const { location } = useGeoLocation();
-  console.log(locationData.data);
 
   const isAuth = useAuthStore((state) => state.isAuth);
   const reachMax = useChatStore((state) => state.reachMax);
@@ -116,7 +115,7 @@ export const LoggedInView = ({
       </div>
 
       {locationData ? (
-        <MapCanvas users={locationData.data.nearbyUsersInformation} />
+        <MapCanvas users={locationData?.data.nearbyUsersInformation} />
       ) : (
         <OutOfBoundsNotice />
       )}
@@ -132,7 +131,7 @@ export const LoggedInView = ({
         </Button>
 
         <HomeBottom
-          count={locationData.data.matchCount}
+          count={locationData?.data.matchCount}
           onClick={() => {
             if (!isAuth) {
               setIsModalOpen({ flag: true, type: "edit" });
