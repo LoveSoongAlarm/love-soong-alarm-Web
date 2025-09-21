@@ -16,11 +16,12 @@ export const Redirect = () => {
       navigate("/");
       return;
     }
-    login(accessToken);
 
     if (isRegistered === "true") {
+      login(accessToken);
       navigate("/splash");
     } else {
+      localStorage.setItem("accessToken", accessToken);
       navigate("/onboarding/profile");
     }
   }, [searchParams, navigate, login]);
