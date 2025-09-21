@@ -52,7 +52,6 @@ export const LoggedInView = ({
 
   const { locationData } = useLoaderData();
   const { location } = useGeoLocation();
-  console.log(locationData.data);
 
   const isAuth = useAuthStore((state) => state.isAuth);
   const reachMax = useChatStore((state) => state.reachMax);
@@ -110,7 +109,9 @@ export const LoggedInView = ({
   return (
     <>
       <div className="w-full">
-        <ProfileCard />
+        <ProfileCard
+          userCount={locationData?.data?.nearbyUsersInformation?.length ?? 0}
+        />
       </div>
 
       {locationData ? (
