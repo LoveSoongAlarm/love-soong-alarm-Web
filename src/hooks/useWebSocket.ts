@@ -28,7 +28,7 @@ export const useWebSocket = () => {
   const setNewChats = useMessageStore((state) => state.setNewChats);
 
   const handleConnectionSuccess = (data: ConnectionSuccess) => {
-    toast.success("채팅이 연결되었습니다.");
+    // toast.success("채팅이 연결되었습니다.");
     console.log("✅ CONNECTION_SUCCESS:", data);
   };
 

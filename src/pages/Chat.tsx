@@ -27,9 +27,7 @@ export const Chat = () => {
   const { chatRoomId } = useParams<{ chatRoomId: string }>();
   const id = Number(chatRoomId);
 
-  const [messages, setMessages] = useState<RecentMessage[]>(
-    chatDetail?.recentMessages ?? []
-  );
+  const [messages, setMessages] = useState<RecentMessage[]>([]);
   const [oldestId, setOldestId] = useState<number | null>(
     chatDetail?.oldestMessageId ?? null
   );
@@ -69,10 +67,8 @@ export const Chat = () => {
   const { ref: topRef, inView } = useInView({ threshold: 0 });
 
   useEffect(() => {
-    if (oldestId != null) {
-      bottomRef.current?.scrollIntoView({ behavior: "auto", block: "end" });
-    }
-  }, [oldestId]);
+    bottomRef.current?.scrollIntoView({ behavior: "auto", block: "end" });
+  }, [chatDetail?.recentMessages]);
 
   const handleLoadPrev = async () => {
     if (!hasPrev || loadingPrev || oldestId == null) return;
@@ -121,11 +117,15 @@ export const Chat = () => {
     <>
       <div
         ref={containerRef}
-        className="relative h-full w-full overflow-y-auto touch-pan-y"
+        className="relative h-full w-dvw overflow-y-auto touch-pan-y"
       >
         <div ref={topRef} />
 
-        {messages.map((item) => (
+        {messages?.map((item) => (
+          <ChatContent key={item.messageId} item={item} />
+        ))}
+
+        {chatDetail.recentMessages?.map((item) => (
           <ChatContent key={item.messageId} item={item} />
         ))}
 
