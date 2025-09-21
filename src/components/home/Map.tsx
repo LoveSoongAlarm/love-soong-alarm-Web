@@ -7,7 +7,7 @@ import {
   type JSX,
 } from "react";
 import { useAuthStore } from "../../store/authStore";
-import type { User, UserProfile } from "../../types/User";
+import type { NearbyUserMarker, UserProfile } from "../../types/User";
 import { useSelectedUserStore } from "../../store/useSelectedUserStore";
 import { useHomeStore } from "../../store/homeStore";
 import { UserMarker } from "./UserMarker";
@@ -40,7 +40,7 @@ interface MapCanvasRef {
 }
 
 interface Props {
-  users?: User[];
+  users?: NearbyUserMarker[];
   myProfile?: UserProfile;
 }
 
