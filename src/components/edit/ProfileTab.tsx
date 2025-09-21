@@ -69,7 +69,7 @@ export const ProfileTab = () => {
               label="나를 표현하는 이모티콘"
               placeholder="예시) 🥰"
               value={emoji}
-              maxLength={4}
+              maxLength={2}
               onChange={onChangeEmoji}
               onClear={() => setEmoji("")}
             />
