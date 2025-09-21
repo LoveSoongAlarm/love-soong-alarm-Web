@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 
 import { CardLayout } from "../components/home/Card/Layout";
@@ -58,8 +58,6 @@ const List = ({
 };
 
 export const Setting = () => {
-  const navigate = useNavigate();
-
   const setIsMemberOutOpen = useAuthStore((state) => state.setIsMemberOutOpen);
   const setIsLogoutOpen = useAuthStore((state) => state.setIsLogoutOpen);
 
