@@ -41,7 +41,7 @@ export const ProfilePreview = () => {
 
   return (
     <>
-      {loginModal && <LoginModal />}
+      {loginModal && <LoginModal type="chat" />}
       <div className="relative">
         <CardHeader branch="profile" title="프로필 보기" />
         <div className="mb-3 flex items-start gap-3">

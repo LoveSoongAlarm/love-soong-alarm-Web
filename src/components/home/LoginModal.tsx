@@ -1,7 +1,11 @@
 import { BlurBackground } from "../../common/BlurBackground";
 import Kakao from "@/assets/icons/Kakao.svg?url";
 
-export const LoginModal = () => {
+interface Props {
+  type: "chat" | "button";
+}
+
+export const LoginModal = ({ type }: Props) => {
   return (
     <BlurBackground>
       <div className="w-full bg-fill-static rounded-2xl py-0.5">
@@ -11,12 +15,20 @@ export const LoginModal = () => {
           </span>
 
           <span className="text-content-base text-xl font-bold leading-7 tracking-[-0.4px] whitespace-nowrap">
-            5초만에 시작하고 이 분과 대화해보세요!
+            {`5초만에 시작하고 ${
+              type === "chat"
+                ? "이 분과 대화해보세요!"
+                : "내 취향을 공유 해보세요!"
+            }`}
           </span>
 
           <span className="text-additive text-base font-medium leading-7 tracking-[-0.48px]">
-            지금과 간단하게 카카오톡으로 회원가입하고 <br /> 이 분과
-            대화해보세요!
+            지금과 간단하게 카카오톡으로 회원가입하고 <br />
+            {`${
+              type === "chat"
+                ? "이 분과 대화해보세요!"
+                : "내 취향을 공유해보세요!"
+            }`}
           </span>
         </div>
 

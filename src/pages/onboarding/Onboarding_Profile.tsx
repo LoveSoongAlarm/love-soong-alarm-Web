@@ -7,7 +7,6 @@ import { OptionButton } from "../../components/profileOnboarding/OptionButton";
 import { Link } from "react-router-dom";
 import { useOnboardingStore } from "../../store/onboardingStore";
 import type { ChangeEvent } from "react";
-import GraphemeSplitter from "grapheme-splitter";
 
 const GENDER_OPTIONS = [
   { label: "남성", value: "MALE" },
