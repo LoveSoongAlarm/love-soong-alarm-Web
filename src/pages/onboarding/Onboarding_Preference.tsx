@@ -19,6 +19,7 @@ export const Onboarding_Preference = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
   const {
+    nickname,
     currentLabels,
     setCurrentLabel,
     currentDetail,
@@ -95,13 +96,18 @@ export const Onboarding_Preference = () => {
         <ProgressBar per="80%" />
 
         <Description
-          title={`휴멸님의 ${changeValueToLabel(label)} 취향에 대해 알려주세요`}
+          title={`${nickname}님의 ${changeValueToLabel(
+            label
+          )} 취향에 대해 알려주세요`}
         >
           더 자세히 적을수록 나와 맞는 소울메이트가 찾아와요!
         </Description>
 
         <div className="px-4">
-          <SectionHeader title="자세한 취향 분류" />
+          <SectionHeader
+            title="자세한 취향 분류"
+            subTitle="가장 좋아하는 한 가지만 선택해주세요!"
+          />
           <ChipStack>
             {genres.map((genre) => (
               <Chip
@@ -109,7 +115,10 @@ export const Onboarding_Preference = () => {
                 variant="detail"
                 selected={currentDetail === genre.value}
                 label={genre.label}
-                onClick={() => setCurrentDetail(genre.value)}
+                onClick={() => {
+                  setCurrentDetail(genre.value);
+                  setCurrentHashtags([]);
+                }}
               />
             ))}
           </ChipStack>

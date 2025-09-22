@@ -1,10 +1,10 @@
 import Marker from "@/assets/icons/Vector_lb.svg?url";
 import MatchMarker from "@/assets/icons/Vector_match.svg?url";
 import SelectMarker from "@/assets/icons/Vector_Select.svg?url";
-import type { User } from "../../types/User";
+import type { NearbyUserMarker } from "../../types/User";
 import clsx from "clsx";
 interface Props {
-  user: User;
+  user: NearbyUserMarker;
   isSelected?: boolean;
 }
 
@@ -20,7 +20,7 @@ export const UserMarker = ({ user, isSelected }: Props) => {
       <img src={MarkerIcon} alt="marker_icon" className="w-12 h-15" />
 
       <div className="absolute top-3 flex flex-col justify-center items-center gap-1">
-        <span className="text-sm z-10">{user.emoji}</span>
+        <span className="text-lg z-10">{user.emoji}</span>
 
         {user.lastSeen && (
           <span

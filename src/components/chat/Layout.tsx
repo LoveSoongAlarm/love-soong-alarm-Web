@@ -46,11 +46,9 @@ export const ChatLayout = () => {
           handleUnblock={handleUnblock!}
         />
       </div>
-
       <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
         <Outlet context={ctx} />
       </div>
-
       <div className="shrink-0">
         <ChatInput handleSend={handleSend!} />
       </div>
