@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import ErrorIcon from "@/assets/icons/error.svg?url";
 
 export const CancelPayment = () => {
+  const path = sessionStorage.getItem("Redirect_PATH") ?? "/";
+
   return (
     <div className="w-full h-full flex flex-col justify-between ">
       <div className="flex flex-col flex-1 gap-3 items-center justify-center">
@@ -16,8 +18,8 @@ export const CancelPayment = () => {
       </div>
 
       <div className="w-full px-4 py-2.5">
-        <Link to="/">
-          <Button variant="primary">홈으로 가기</Button>
+        <Link to={`${path}`} replace>
+          <Button variant="primary">이전 페이지로 가기</Button>
         </Link>
       </div>
     </div>

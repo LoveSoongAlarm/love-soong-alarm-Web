@@ -25,10 +25,16 @@ export const PrivateLayout = () => {
     }
   }, [accessToken, isAuth]);
 
-  const { handleEnter, handleExit, handleSend } =
+  const { handleEnter, handleExit, handleSend, handleBlock, handleUnblock } =
     useOutletContext<SocketActions>();
 
-  const ctx: SocketActions = { handleEnter, handleExit, handleSend };
+  const ctx: SocketActions = {
+    handleEnter,
+    handleExit,
+    handleSend,
+    handleBlock,
+    handleUnblock,
+  };
 
   const HEADER_TEXT =
     pathname === "/coin"
@@ -41,10 +47,17 @@ export const PrivateLayout = () => {
       ? "채팅"
       : "";
 
+  const handleClick = () => {
+    if (pathname.startsWith("/chat")) navigate("/");
+    else navigate(-1);
+  };
+
   return (
     <div className="flex h-dvh flex-col overflow-hidden safe-bottom">
       <div className="flex flex-col items-center gap-4 shrink-0">
-        {HEADER_TEXT && <Header title={HEADER_TEXT} />}
+        {HEADER_TEXT && (
+          <Header title={HEADER_TEXT} onClick={() => handleClick()} />
+        )}
       </div>
       <Outlet context={ctx} />
     </div>

@@ -19,13 +19,15 @@ export const ChatLayout = () => {
   const revalidator = useRevalidator();
   const { chatDetail } = useLoaderData();
 
-  const { handleEnter, handleExit, handleSend } =
+  const { handleEnter, handleExit, handleSend, handleBlock, handleUnblock } =
     useOutletContext<SocketActions>();
 
   const ctx: Context = {
     handleEnter,
     handleExit,
     handleSend,
+    handleBlock,
+    handleUnblock,
     chatDetail: chatDetail.data,
   };
 

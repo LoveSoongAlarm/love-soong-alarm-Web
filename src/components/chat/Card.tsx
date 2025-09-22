@@ -12,7 +12,7 @@ export const ChatCard = ({ chatDetail }: { chatDetail: ChatDetail }) => {
       <div className="flex flex-row justify-between items-center py-2.5">
         <ProfileLabel chatDetail={chatDetail} />
         {chatDetail?.isPartnerBlocked ? (
-          <Button_v2 branch="BLOCK" onClick={() => setIgnoreUser(false)} />
+          <Button_v2 branch="UNBLOCK" onClick={() => setIgnoreUser(true)} />
         ) : (
           <Button_v2 branch="BLOCK" onClick={() => setIgnoreUser(true)} />
         )}
