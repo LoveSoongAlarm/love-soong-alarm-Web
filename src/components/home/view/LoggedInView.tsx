@@ -123,7 +123,7 @@ export const LoggedInView = ({
   });
 
   return (
-    <>
+    <div className="h-full">
       <div className="w-full">
         <ProfileCard
           userCount={locationData?.data?.nearbyUsersInformation?.length ?? 0}
@@ -177,6 +177,6 @@ export const LoggedInView = ({
       <RenderCard />
 
       {reachMax && <ReachMaxModal />}
-    </>
+    </div>
   );
 };
