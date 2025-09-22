@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useApi } from "../../api/api";
 import { INTEREST_OPTIONS } from "../../constants/interests";
 import { useAuthStore } from "../../store/authStore";
+import mixpanel from "mixpanel-browser/src/loaders/loader-module-core";
 
 export const Onboarding_Preference = () => {
   const { step } = useParams();
@@ -62,6 +63,10 @@ export const Onboarding_Preference = () => {
         reset();
         sessionStorage.removeItem("onboarding-storage");
         login(accessToken);
+
+        // mixpanel 사용자 식별
+        mixpanel.track("SignUp");
+        mixpanel.identify("user_test");
         navigate("/guide");
       } else {
         console.log("accessToken이 없습니다.");
