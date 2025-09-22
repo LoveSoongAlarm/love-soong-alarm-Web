@@ -6,6 +6,7 @@ import { useSelectedUserStore } from "../store/useSelectedUserStore";
 import clsx from "clsx";
 import type { ChatDetail } from "../types/chat";
 import { useChatStore } from "../store/chatStore";
+import { INTEREST_OPTIONS } from "../constants/interests";
 
 export const CardHeader = ({
   branch,
@@ -53,6 +54,11 @@ export const CardHeader = ({
   );
 };
 
+const changeValueToLabel = (value: string) => {
+  const match = INTEREST_OPTIONS.find((option) => option.value === value);
+  return match?.label;
+};
+
 export const Hashtag_v2 = ({
   item,
 }: {
@@ -61,7 +67,7 @@ export const Hashtag_v2 = ({
   return (
     <div className="flex items-center gap-x-1.5 shrink-0">
       <span className="inline-flex shrink-0 whitespace-nowrap text-main1 bg-main3 text-[12px] px-1.5 py-0.5 rounded-[4px]">
-        #{item.label}
+        #{changeValueToLabel(item.label)}
       </span>
       {item.hashtags.map((it, i) => (
         <span
