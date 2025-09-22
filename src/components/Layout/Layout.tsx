@@ -3,15 +3,18 @@ import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { AnimatePresence, motion } from "framer-motion";
 import mixpanel from "mixpanel-browser";
+import { useEffect } from "react";
 
 export const Layout = () => {
-  mixpanel.init(`${import.meta.env.VITE_MIX_PANEL}`, {
-    debug: true,
-    track_pageview: true,
-    persistence: "localStorage",
-    record_sessions_percent: 1,
-    record_heatmap_data: true,
-  });
+  useEffect(() => {
+    mixpanel.init(`${import.meta.env.VITE_MIX_PANEL}`, {
+      debug: true,
+      track_pageview: true,
+      persistence: "localStorage",
+      record_sessions_percent: 1,
+      record_heatmap_data: true,
+    });
+  }, []);
 
   return (
     <AnimatePresence>
@@ -34,7 +37,7 @@ export const Layout = () => {
           draggable={false}
           closeButton={false}
           toastClassName="custom-toast-box"
-          className="custom-toast-container"
+          className="custom-toast-container mt-6"
         />
       </motion.div>
     </AnimatePresence>
