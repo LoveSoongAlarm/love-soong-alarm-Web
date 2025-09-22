@@ -105,7 +105,7 @@ export const Coin = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-1 overflow-y-auto flex flex-col w-full gap-y-1 px-0 pb-24">
+      <div className="flex-1 overflow-y-auto flex flex-col w-full gap-y-1 px-0 pb-18">
         <Header>
           <div className="flex flex-row gap-x-2 pt-2.5">
             <img src={Ticket} alt="Ticket" />
@@ -156,7 +156,7 @@ export const Coin = () => {
         </Wrapper>
       </div>
 
-      <div className="sticky bottom-3 px-4 py-2.5 bg-white border-t border-[#EDEBF2] pb-[env(safe-area-inset-bottom)] ">
+      <div className="sticky bottom-0 px-4 py-2.5 bg-white border-t border-[#EDEBF2] pb-[env(safe-area-inset-bottom)] ">
         {select ? (
           <Button variant="primary" onClick={onPay}>
             {select.value}원 결제하기
