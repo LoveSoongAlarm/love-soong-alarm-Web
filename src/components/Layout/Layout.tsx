@@ -7,12 +7,31 @@ import { useEffect } from "react";
 
 export const Layout = () => {
   useEffect(() => {
+    // MixPanel 초기화
     mixpanel.init(`${import.meta.env.VITE_MIX_PANEL}`, {
       debug: true,
       track_pageview: true,
       persistence: "localStorage",
       record_sessions_percent: 1,
       record_heatmap_data: true,
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const referrer = document.referrer;
+
+    // 슈퍼 프로퍼티 등록
+    mixpanel.register({
+      utm_source: urlParams.get("utm_source") || "direct",
+      utm_medium: urlParams.get("utm_medium") || "none",
+      utm_campaign: urlParams.get("utm_campaign") || "",
+      utm_content: urlParams.get("utm_content") || "",
+      utm_term: urlParams.get("utm_term") || "",
+      referrer: referrer || "",
+    });
+
+    // 첫 방문 시 Landing 이벤트 트래킹(선택)
+    mixpanel.track("Landing", {
+      first_time_user: true,
     });
   }, []);
 
