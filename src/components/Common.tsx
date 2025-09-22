@@ -138,8 +138,22 @@ export const Profile = ({ emoji, name, age, major, lastSeen }: Props) => {
       </div>
 
       {selectedUserId !== -1 && (
-        <div className="px-1.5 py-0.5 rounded-sm bg-success-regular">
-          <span className="text-success-strong text-xs font-medium leading-4.5 tracking-[-0.24px]">
+        <div
+          className={clsx(
+            "px-1.5 py-0.5 rounded-sm",
+            lastSeen === "10분 내 접속"
+              ? "bg-success-regular"
+              : "bg-warning-regular"
+          )}
+        >
+          <span
+            className={clsx(
+              "text-xs font-medium leading-4.5 tracking-[-0.24px]",
+              lastSeen === "10분 내 접속"
+                ? "text-success-strong"
+                : "text-warning-strong"
+            )}
+          >
             {lastSeen}
           </span>
         </div>
