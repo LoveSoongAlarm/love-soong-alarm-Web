@@ -93,10 +93,12 @@ export const useWebSocket = () => {
 
   const handleBlockUser = (data: BlockUser) => {
     console.log("BLOCK_USER: ", data);
+    window.dispatchEvent(new CustomEvent("revalidate:chat"));
   };
 
   const handleUnblockUser = (data: UnblockUser) => {
     console.log("UNBLOCK_USER: ", data);
+    window.dispatchEvent(new CustomEvent("revalidate:chat"));
   };
 
   const handleReadAllNotificatino = (data: ReadAllNotification) => {
