@@ -35,12 +35,14 @@ export const LoggedOutView = () => {
       <div className="absolute top-0 left-0 right-0 z-40 bg-white">
         <div className="w-full px-4 pt-4 pb-6 flex justify-between items-center h-15">
           <img src={Logo} alt={"Logo"} className="size-12" />
-          <img
-            src={LoginIcon}
-            alt="login_icon"
-            className="cursor-pointer"
-            onClick={() => setLogin(true)}
-          />
+          <div>
+            <img
+              src={LoginIcon}
+              alt="login_icon"
+              className="cursor-pointer"
+              onClick={() => setLogin(true)}
+            />
+          </div>
         </div>
       </div>
 
