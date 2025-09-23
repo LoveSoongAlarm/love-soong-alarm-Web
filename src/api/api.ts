@@ -119,8 +119,7 @@ export const useApi = () => {
   // Handle API Errors
   const handleApiError = (error: any) => {
     if (error.response) {
-      // console.log(error.resopnse);
-      toast.error(error.response.data.message);
+      console.log(error.resopnse);
       return error.response.data;
     } else if (error.request) {
       console.log("API Error Request:", error.request);
