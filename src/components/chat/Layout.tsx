@@ -38,7 +38,6 @@ export const ChatLayout = () => {
     window.addEventListener("revalidate:chat", onRevalidate);
     return () => {
       window.removeEventListener("revalidate:chat", onRevalidate);
-      localStorage.removeItem("accessToken");
     };
   }, [revalidator]);
 
