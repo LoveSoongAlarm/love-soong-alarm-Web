@@ -1,5 +1,4 @@
 import axios, { type AxiosResponse } from "axios";
-import { toast } from "react-toastify";
 
 interface BasicResponse<T> {
   data: T;

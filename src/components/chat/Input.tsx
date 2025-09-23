@@ -1,8 +1,6 @@
-import Add from "@/assets/icons/ic_add.svg";
 import Send from "@/assets/icons/ic_send.svg";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 export const ChatInput = ({
   handleSend,
