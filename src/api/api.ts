@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from "axios";
-import { useAuthStore } from "../store/authStore";
+// import { useAuthStore } from "../store/authStore";
 
 interface BasicResponse<T> {
   data: T;
@@ -32,7 +32,7 @@ axiosInstance.interceptors.request.use(
 
 // 리프레시
 
-const { logout } = useAuthStore.getState();
+// const { logout } = useAuthStore.getState();
 
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -48,20 +48,20 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshResponse = await axiosInstance.post("/api/auth/reissue");
+        const refreshResponse = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/api/auth/reissue`,
+          {},
+          { withCredentials: true }
+        );
+        console.log(refreshResponse);
 
-        const newAccessToken = refreshResponse.data.data.accessToken;
+        const newAccessToken = refreshResponse.data.data.data.accessToken;
         localStorage.setItem("accessToken", newAccessToken);
 
         // 원래 요청에 새 토큰 붙이고 재요청
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        localStorage.clear();
-        sessionStorage.clear();
-        logout();
-        window.location.href = "/";
-
         return Promise.reject(refreshError);
       }
     }
