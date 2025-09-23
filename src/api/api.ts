@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from "axios";
-// import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../store/authStore";
 
 interface BasicResponse<T> {
   data: T;
@@ -32,7 +32,7 @@ axiosInstance.interceptors.request.use(
 
 // 리프레시
 
-// const { logout } = useAuthStore.getState();
+const { logout } = useAuthStore.getState();
 
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -57,7 +57,7 @@ axiosInstance.interceptors.response.use(
 
         console.log("재발급 완료!");
 
-        const newAccessToken = refreshResponse.data.data.data.accessToken;
+        const newAccessToken = refreshResponse.data.data.accessToken;
         localStorage.setItem("accessToken", newAccessToken);
 
         // 원래 요청에 새 토큰 붙이고 재요청
@@ -65,10 +65,10 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("토큰 재발급 실패", refreshError);
-        // localStorage.clear();
-        // sessionStorage.clear();
-        // logout();
-        // window.location.href = "/";
+        localStorage.clear();
+        sessionStorage.clear();
+        logout();
+        window.location.href = "/";
 
         return Promise.reject(refreshError);
       }
