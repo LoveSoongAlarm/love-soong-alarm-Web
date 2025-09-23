@@ -49,7 +49,7 @@ export const ChatLayout = () => {
       <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
         <Outlet context={ctx} />
       </div>
-      <div className="shrink-0">
+      <div className="shrink-0 safe-bottom">
         <ChatInput handleSend={handleSend!} />
       </div>
     </div>
