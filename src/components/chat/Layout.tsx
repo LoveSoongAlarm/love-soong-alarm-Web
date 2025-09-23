@@ -9,7 +9,7 @@ import { ChatCard } from "./Card";
 import { ChatInput } from "./Input";
 import type { SocketActions } from "../Layout/SocketLayout";
 import type { ChatDetail } from "../../types/chat";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export interface Context extends SocketActions {
   chatDetail: ChatDetail;
@@ -42,14 +42,29 @@ export const ChatLayout = () => {
   }, [revalidator]);
 
   return (
-    <div className="flex h-dvh max-w-dvw flex-col overflow-hidden">
-      <div className="flex flex-col items-center gap-4 shrink-0">
-        <ChatCard chatDetail={chatDetail?.data} />
+    // <div className={`flex h-full max-w-dvw flex-col overflow-hidden `}>
+    //   <div className="flex flex-col items-center gap-4 shrink-0">
+    //     <ChatCard chatDetail={chatDetail?.data} />
+    //   </div>
+    //   <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
+    //     <Outlet context={ctx} />
+    //   </div>
+    //   <div className="shrink-0 safe-bottom">
+    //     <ChatInput handleSend={handleSend!} />
+    //   </div>
+    // </div>
+
+    <div className={`flex h-dvh max-w-dvw flex-col overflow-hidden relative`}>
+      <div className="absolute top-0 w-full z-10">
+        {" "}
+        <div className="flex flex-col items-center gap-4 shrink-0">
+          <ChatCard chatDetail={chatDetail?.data} />
+        </div>
       </div>
-      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
+      <div className="flex-1 min-h-0 overflow-hidden pt-[100px]">
         <Outlet context={ctx} />
       </div>
-      <div className="shrink-0 safe-bottom">
+      <div className="shrink-0 safe-bottom z-10">
         <ChatInput handleSend={handleSend!} />
       </div>
     </div>

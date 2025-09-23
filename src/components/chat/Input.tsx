@@ -22,38 +22,38 @@ export const ChatInput = ({
     inputRef.current?.focus({ preventScroll: true });
   };
 
-  useEffect(() => {
-    const onTouchMove = () => {
-      if (inputRef.current) {
-        inputRef.current.blur();
-      }
-    };
+  // useEffect(() => {
+  //   const onTouchMove = () => {
+  //     if (inputRef.current) {
+  //       inputRef.current.blur();
+  //     }
+  //   };
 
-    const handleFocus = () => {
-      if (isTouchMoveActive.current) return;
-      isTouchMoveActive.current = true;
-      document.addEventListener("touchmove", onTouchMove, { passive: true });
-    };
+  //   const handleFocus = () => {
+  //     if (isTouchMoveActive.current) return;
+  //     isTouchMoveActive.current = true;
+  //     document.addEventListener("touchmove", onTouchMove, { passive: true });
+  //   };
 
-    const handleBlur = () => {
-      isTouchMoveActive.current = false;
-      document.removeEventListener("touchmove", onTouchMove);
-    };
+  //   const handleBlur = () => {
+  //     isTouchMoveActive.current = false;
+  //     document.removeEventListener("touchmove", onTouchMove);
+  //   };
 
-    const input = inputRef.current;
-    if (input) {
-      input.addEventListener("focus", handleFocus);
-      input.addEventListener("blur", handleBlur);
-    }
+  //   const input = inputRef.current;
+  //   if (input) {
+  //     input.addEventListener("focus", handleFocus);
+  //     input.addEventListener("blur", handleBlur);
+  //   }
 
-    return () => {
-      if (input) {
-        input.removeEventListener("focus", handleFocus);
-        input.removeEventListener("blur", handleBlur);
-      }
-      document.removeEventListener("touchmove", onTouchMove);
-    };
-  }, []);
+  //   return () => {
+  //     if (input) {
+  //       input.removeEventListener("focus", handleFocus);
+  //       input.removeEventListener("blur", handleBlur);
+  //     }
+  //     document.removeEventListener("touchmove", onTouchMove);
+  //   };
+  // }, []);
 
   return (
     <div
