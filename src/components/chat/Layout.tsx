@@ -9,7 +9,8 @@ import { ChatCard } from "./Card";
 import { ChatInput } from "./Input";
 import type { SocketActions } from "../Layout/SocketLayout";
 import type { ChatDetail } from "../../types/chat";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Header } from "../../common/Header";
 
 export interface Context extends SocketActions {
   chatDetail: ChatDetail;
@@ -18,6 +19,44 @@ export interface Context extends SocketActions {
 export const ChatLayout = () => {
   const revalidator = useRevalidator();
   const { chatDetail } = useLoaderData();
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLDivElement | null>(null);
+
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [viewportHeight, setViewportHeight] = useState(
+    window.visualViewport?.height || window.innerHeight
+  );
+
+  const [contentHeight, setContentHeight] = useState<number>(0);
+
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap || !window.visualViewport) return;
+
+    const handleResize = () => {
+      const headerHeight = headerRef.current?.offsetHeight ?? 0;
+      const inputHeight = inputRef.current?.offsetHeight ?? 0;
+
+      const vpHeight = window.visualViewport?.height ?? window.innerHeight;
+      setKeyboardVisible(vpHeight < viewportHeight);
+      setViewportHeight(vpHeight);
+
+      const usableHeight = vpHeight - headerHeight - inputHeight;
+      setContentHeight(usableHeight);
+    };
+
+    window.visualViewport.addEventListener("resize", handleResize);
+    window.visualViewport.addEventListener("scroll", handleResize);
+    handleResize();
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener("resize", handleResize);
+        window.visualViewport.removeEventListener("scroll", handleResize);
+      }
+    };
+  }, []);
 
   const { handleEnter, handleExit, handleSend, handleBlock, handleUnblock } =
     useOutletContext<SocketActions>();
@@ -54,17 +93,23 @@ export const ChatLayout = () => {
     //   </div>
     // </div>
 
-    <div className={`flex h-dvh max-w-dvw flex-col overflow-hidden relative`}>
-      <div className="absolute top-0 w-full z-10">
-        {" "}
-        <div className="flex flex-col items-center gap-4 shrink-0">
-          <ChatCard chatDetail={chatDetail?.data} />
-        </div>
+    <div
+      ref={wrapRef}
+      className={`absolute bottom-0 flex w-full max-w-dvw flex-col overflow-hidden`}
+      style={{ height: viewportHeight }}
+    >
+      <div className="flex flex-col" ref={headerRef}>
+        <Header title="채팅" />
+        {!keyboardVisible && <ChatCard chatDetail={chatDetail?.data} />}
       </div>
-      <div className="flex-1 min-h-0 overflow-hidden pt-[100px]">
+
+      <div
+        className="flex-1 min-h-0 overflow-hidden"
+        style={{ height: contentHeight }}
+      >
         <Outlet context={ctx} />
       </div>
-      <div className="shrink-0 safe-bottom z-10">
+      <div className="shrink-0 safe-bottom z-10" ref={inputRef}>
         <ChatInput handleSend={handleSend!} />
       </div>
     </div>
