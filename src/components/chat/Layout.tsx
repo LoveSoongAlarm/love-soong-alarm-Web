@@ -104,7 +104,7 @@ export const ChatLayout = () => {
       </div>
 
       <div
-        className="flex-1 min-h-0 overflow-hidden"
+        className="flex-1 min-h-0 overflow-y-auto"
         style={{ height: contentHeight }}
       >
         <Outlet context={ctx} />
