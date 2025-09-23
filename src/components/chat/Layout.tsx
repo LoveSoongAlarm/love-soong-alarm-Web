@@ -39,7 +39,9 @@ export const ChatLayout = () => {
       revalidator.revalidate();
     };
     window.addEventListener("revalidate:chat", onRevalidate);
-    return () => window.removeEventListener("revalidate:chat", onRevalidate);
+    return () => {
+      window.removeEventListener("revalidate:chat", onRevalidate);
+    };
   }, [revalidator]);
 
   return (

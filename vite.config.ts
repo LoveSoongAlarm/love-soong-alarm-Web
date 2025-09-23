@@ -13,6 +13,7 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
+      mode: "production",
       manifest: {
         name: "좋아하면 숭리는",
         short_name: "좋아하면 숭리는",
@@ -25,13 +26,13 @@ export default defineConfig({
         lang: "ko",
         icons: [
           {
-            src: "icons/Logo.png",
+            src: "icons/Logo_purple.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "any maskable",
           },
           {
-            src: "icons/Logo.png",
+            src: "cons/Logo_purple.png",
             sizes: "512x512",
             type: "image/png",
           },

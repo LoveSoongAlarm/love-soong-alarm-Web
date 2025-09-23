@@ -25,6 +25,7 @@
   --color-root-strong: rgba(244, 242, 247, 1);
   --color-fill-static: rgba(255, 255, 255, 1);
   --color-warning-strong: rgba(255, 191, 15, 1);
+  --color-warning-regular: rgba(255, 191, 15, 0.08);
 
   --shadow-dim-weak: 0 -10px 16px 0 rgba(51, 29, 36, 0.08);
 
@@ -57,26 +58,6 @@
   body {
     @apply overscroll-none;
   }
-
-  /* @media all and (display-mode: standalone) {
-    @media screen and (width: 375px) and (max-height: 667px) {
-      #root {
-        padding-bottom: 0px;
-      }
-    }
-
-    @media screen and (width: 375px) and (min-height: 700px) {
-      #root {
-        padding-bottom: 34px;
-      }
-    }
-
-    @media screen and (min-width: 393px) {
-      #root {
-        padding-bottom: 34px;
-      }
-    }
-  } */
 }
 
 :root {
