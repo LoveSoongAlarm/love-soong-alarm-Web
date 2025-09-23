@@ -57,12 +57,12 @@ axiosInstance.interceptors.response.use(
 
         console.log("재발급 완료!");
 
-        // const newAccessToken = refreshResponse.data.data.data.accessToken;
-        // localStorage.setItem("accessToken", newAccessToken);
+        const newAccessToken = refreshResponse.data.data.data.accessToken;
+        localStorage.setItem("accessToken", newAccessToken);
 
-        // // 원래 요청에 새 토큰 붙이고 재요청
-        // originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        // return axiosInstance(originalRequest);
+        // 원래 요청에 새 토큰 붙이고 재요청
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("토큰 재발급 실패", refreshError);
         // localStorage.clear();
