@@ -1,24 +1,24 @@
 import { useNavigate } from "react-router-dom";
-import { useApi } from "../../../api/api";
+// import { axiosInstance, useApi } from "../../../api/api";
 import { useAuthStore } from "../../../store/authStore";
 import { CardHeader } from "../../Common";
+import axios from "axios";
 
 export const LogoutCard = () => {
   const setLogout = useAuthStore((state) => state.setIsLogoutOpen);
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
 
-  const { postData } = useApi();
+  // const { postData } = useApi();
 
   const handleLogout = async () => {
     try {
-      const data = await postData("/api/auth/logout");
-      if (data.success) {
-        logout();
-        localStorage.clear();
-        sessionStorage.clear();
-        navigate("/");
-      }
+      await axios.get("/api/auth/logout");
+
+      logout();
+      localStorage.clear();
+      sessionStorage.clear();
+      navigate("/");
     } catch (err) {
       console.error(err);
     }
