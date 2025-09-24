@@ -181,7 +181,7 @@ export const PrivacyPolicy = () => {
             <strong>이전되는 개인정보 항목:</strong> 이메일
           </li>
           <li>
-            <strong>이용목적:</strong> 간편 결제(네이버페이, 삼성페이, 애플페이,
+            <strong>이용목적:</strong> 간편 결제(네이버페이, 삼성페이,
             카카오페이)
           </li>
           <li>
