@@ -1,69 +1,57 @@
-# React + TypeScript + Vite
+# 좋아하면 숭리는 💘
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+💓 숭실대학교 대동제 위치기반 매칭 서비스
+지금, 내 근처에 나와 같은 취향을 가진 사람을 자연스럽게 발견하고 연결하는 위치 기반 플랫폼
 
-Currently, two official plugins are available:
+<p align="center">
+  <img width="640" height="368" alt="뒷면" src="https://github.com/user-attachments/assets/ceddb867-2ac9-4200-a2b4-243509687912" />
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔎 프로젝트 소개
 
-## Expanding the ESLint configuration
+💡 지금 50m 이내에, 나와 같은 취향을 가진 사람이 있다면? <br />
+	•	근처에 #리버풀FC를 좋아하는 사람이 있어요 <br />
+	•	근처에 #검정치마를 좋아하는 사람이 있어요 <br />
+	•	근처에 클라이밍, 등산, 헬스, 오버워치를 좋아하는 사람이 있어요 <br />
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+💭 같은 취향의 사람을 만나고 싶긴 한데 <br />
+💭 그렇다고 소개팅 앱처럼 적극적으로 나서는 건 부담스럽고 <br />
+💭 그냥 지금 이 공간에서 말 통하는 사람이 있으면 좋겠다 <br />
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+💓 좋아하면 숭리는은 축제라는 지금-여기 공간에서 관심사 기반으로 사람을 탐색하고 연결하는 서비스 💓 
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## ✨ 주요 기능 
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. 📍 실시간 위치 기반 탐색 
+  - 사용자의 현재 위치(Geolocation)를 포그라운드 상태에서 수집하여 서버로 전송
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+  - 지도 SDK를 활용해 내 주변 사용자를 마커로 시각화
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. 🔔 숭알람 & 매칭 
+- Firebase Cloud Messaging(FCM)을 연동하여, 근처에 취향이 맞는 상대가 나타나거나 채팅이 오면 즉각적인 푸시 알림을 제공
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3. 💬 익명 채팅
+- 매칭된 상대와 즉시 대화할 수 있는 1:1 채팅 인터페이스를 제공
+
+- 부담 없는 대화를 위해 프로필은 관심사 위주로 노출
+
+4. 🔐 소셜 로그인
+- 카카오 로그인을 연동하여 빠르고 간편한 가입 절차를 제공
+
+5. 📱 PWA (Progressive Web App) 지원
+- 브라우저에서 바로 실행되며, '홈 화면에 추가' 기능을 통해 네이티브 앱처럼 아이콘을 생성하고 사용할 수 있음
+
+## 🛠 기술 스택 (Tech Stack)
+**Core**: React(Vite), TypeScript, PWA
+
+**State Management**: Zustand
+
+**Cloud & DevOps**: Firebase (FCM), AWS
+
+**Styling**: TailwinCSS
+
+**Deployment**: Vercel
+
+**Notification**: Firebase Cloud Messaging (FCM)
+
+**Maps**: Kakao Maps API
